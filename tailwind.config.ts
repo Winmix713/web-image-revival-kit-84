@@ -62,6 +62,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// New neon colors
+				neon: {
+					cyan: '#00F5FF',
+					purple: '#B026FF',
+					yellow: '#FAFF00',
 				}
 			},
 			borderRadius: {
@@ -117,6 +123,51 @@ export default {
 				rotate: {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
+				},
+				// New animations
+				'neon-pulse': {
+					'0%, 100%': { opacity: '1', filter: 'brightness(1)' },
+					'50%': { opacity: '0.7', filter: 'brightness(0.8)' }
+				},
+				'noise': {
+					'0%, 100%': { backgroundPosition: '0% 0%' },
+					'20%': { backgroundPosition: '20% 20%' },
+					'40%': { backgroundPosition: '60% 60%' },
+					'60%': { backgroundPosition: '40% 40%' },
+					'80%': { backgroundPosition: '80% 80%' },
+				},
+				'digital-scan': {
+					'0%': { transform: 'translateY(-100%)', opacity: '0.2' },
+					'100%': { transform: 'translateY(100%)', opacity: '0' }
+				},
+				'glitch': {
+					'0%, 12%, 18.999%, 23%, 31.999%, 37%, 44.999%, 46%, 49.999%, 51%, 58.999%, 61%, 68.999%, 71%, 85.999%, 96%, 100%': {
+						transform: 'translate(0px, 0px) skew(0deg)'
+					},
+					'7%, 13%': {
+						transform: 'translate(-2px, 0) skew(-5deg)'
+					},
+					'19%, 24%': {
+						transform: 'translate(2px, 0) skew(5deg)'
+					},
+					'32%, 38%': {
+						transform: 'translate(-2px, 0) skew(-5deg)'
+					},
+					'45%, 47%': {
+						transform: 'translate(2px, 0) skew(5deg)'
+					},
+					'50%, 52%': {
+						transform: 'translate(-2px, 0) skew(-5deg)'
+					},
+					'59%, 62%': {
+						transform: 'translate(2px, 0) skew(5deg)'
+					},
+					'69%, 72%': {
+						transform: 'translate(-2px, 0) skew(-5deg)'
+					},
+					'86%, 97%': {
+						transform: 'translate(2px, 0) skew(5deg)'
+					}
 				}
 			},
 			animation: {
@@ -129,23 +180,37 @@ export default {
 				'float': 'float 3s ease-in-out infinite',
 				'shimmer': 'shimmer 2s linear infinite',
 				'scale': 'scale 0.2s ease-in-out',
-				'rotate': 'rotate 2s linear infinite'
+				'rotate': 'rotate 2s linear infinite',
+				// New animations
+				'neon-pulse': 'neon-pulse 2s infinite',
+				'noise': 'noise 8s infinite',
+				'digital-scan': 'digital-scan 2s linear infinite',
+				'glitch': 'glitch 3s infinite'
 			},
 			boxShadow: {
 				'glow-sm': '0 0 5px rgba(155, 135, 245, 0.5)',
 				'glow-md': '0 0 10px rgba(155, 135, 245, 0.7)',
 				'glow-lg': '0 0 20px rgba(155, 135, 245, 0.9)',
-				'glow-blue-sm': '0 0 5px rgba(58, 54, 224, 0.5)',
-				'glow-blue-md': '0 0 10px rgba(58, 54, 224, 0.7)',
-				'glow-blue-lg': '0 0 20px rgba(58, 54, 224, 0.9)',
-				'glow-purple-sm': '0 0 5px rgba(110, 89, 165, 0.5)',
-				'glow-purple-md': '0 0 10px rgba(110, 89, 165, 0.7)',
-				'glow-purple-lg': '0 0 20px rgba(110, 89, 165, 0.9)',
+				'glow-blue-sm': '0 0 5px rgba(0, 245, 255, 0.5)',
+				'glow-blue-md': '0 0 10px rgba(0, 245, 255, 0.7)',
+				'glow-blue-lg': '0 0 20px rgba(0, 245, 255, 0.9)',
+				'glow-purple-sm': '0 0 5px rgba(176, 38, 255, 0.5)',
+				'glow-purple-md': '0 0 10px rgba(176, 38, 255, 0.7)',
+				'glow-purple-lg': '0 0 20px rgba(176, 38, 255, 0.9)',
+				'glow-yellow-sm': '0 0 5px rgba(250, 255, 0, 0.5)',
+				'glow-yellow-md': '0 0 10px rgba(250, 255, 0, 0.7)',
+				'glow-yellow-lg': '0 0 20px rgba(250, 255, 0, 0.9)',
+				// Brutalism shadows
+				'brutal-sm': '4px 4px 0 0 rgba(0, 0, 0, 1)',
+				'brutal-md': '6px 6px 0 0 rgba(0, 0, 0, 1)',
+				'brutal-lg': '8px 8px 0 0 rgba(0, 0, 0, 1)',
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-				'gradient-mesh': 'linear-gradient(45deg, #3a36e0 25%, transparent 25%), linear-gradient(-45deg, #3a36e0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #3a36e0 75%), linear-gradient(-45deg, transparent 75%, #3a36e0 75%)'
+				'gradient-mesh': 'linear-gradient(45deg, #3a36e0 25%, transparent 25%), linear-gradient(-45deg, #3a36e0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #3a36e0 75%), linear-gradient(-45deg, transparent 75%, #3a36e0 75%)',
+				'cyber-grid': 'linear-gradient(rgba(0, 245, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 245, 255, 0.1) 1px, transparent 1px)',
+				'noise': 'url("/noise.png")'
 			}
 		}
 	},

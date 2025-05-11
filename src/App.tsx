@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LeagueManagement from "./pages/LeagueManagement";
+import PatternsPage from "./pages/Patterns";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,7 @@ const App = () => (
           <Route path="/leagues" element={<Index />} />
           <Route path="/matches" element={<Index />} />
           <Route path="/analysis" element={<Index />} />
-          <Route path="/patterns" element={<Index />} />
+          <Route path="/patterns" element={<PatternsPage />} />
           <Route path="/league-analytics" element={<Index />} />
           <Route path="/league-management" element={<LeagueManagement />} />
           <Route path="/integrations" element={<Index />} />
