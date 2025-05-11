@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Bell, User, Menu, X, ChevronDown } from "lucide-react";
+import { Bell, User, Menu, X, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -20,25 +20,25 @@ export const AppHeader = ({ toggleSidebar, title = "LeagueSync" }: AppHeaderProp
 
   return (
     <header className="fixed top-0 w-full z-50">
-      <div className="flex items-center justify-between px-6 py-4 bg-background/70 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/5">
+      <div className="flex items-center justify-between px-6 py-4 bg-background/70 backdrop-blur-xl border-b border-white/10 shadow-md shadow-black/10">
         {/* Logo & Mobile Menu Toggle */}
         <div className="flex items-center gap-4">
           <Button 
             variant="ghost" 
             size="icon" 
             className="md:hidden h-9 w-9 text-white hover:bg-white/10"
-            onClick={toggleMenu}
+            onClick={toggleSidebar || toggleMenu}
           >
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
           
-          <div className="flex items-center gap-2">
-            <span className="bg-[#3a36e0] p-1.5 rounded text-white">
+          <div className="flex items-center gap-3">
+            <span className="bg-gradient-to-br from-[#3a36e0] to-[#6e59A5] p-1.5 rounded text-white shadow-md shadow-[#3a36e0]/20">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M21 7L13 15L9 11L3 17M21 7H15M21 7V13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </span>
-            <span className="text-lg font-bold text-white">{title}</span>
+            <span className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">{title}</span>
           </div>
         </div>
 
@@ -47,9 +47,9 @@ export const AppHeader = ({ toggleSidebar, title = "LeagueSync" }: AppHeaderProp
           "fixed inset-x-0 top-[72px] p-4 border-b border-white/10 md:static md:p-0 md:border-0 md:flex md:items-center md:gap-1 transition-all duration-300 ease-in-out bg-background/95 backdrop-blur-md md:bg-transparent",
           isMenuOpen ? "block" : "hidden md:flex"
         )}>
-          <NavLink href="/" isActive={true}>Dashboard</NavLink>
+          <NavLink href="/" isActive={false}>Dashboard</NavLink>
           <NavLink href="/leagues">Leagues</NavLink>
-          <NavLink href="/matches">Matches</NavLink>
+          <NavLink href="/matches" isActive={true}>Matches</NavLink>
           <NavLink href="/analysis">Analysis</NavLink>
           <NavLink href="/patterns">
             Patterns
@@ -72,10 +72,8 @@ export const AppHeader = ({ toggleSidebar, title = "LeagueSync" }: AppHeaderProp
             <span className="hidden sm:inline">Account</span>
           </Button>
           
-          <Button className="bg-[#3a36e0] hover:bg-[#2a26d0] text-white gap-2 shadow-sm hover:shadow-[0_0_15px_rgba(58,54,224,0.5)] transition-all hidden sm:flex">
-            <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
-            </svg>
+          <Button className="bg-gradient-to-r from-[#3a36e0] to-[#6e59A5] hover:from-[#3a36e0] hover:to-[#5a459b] text-white gap-2 shadow-md hover:shadow-[0_0_15px_rgba(58,54,224,0.5)] transition-all hidden sm:flex">
+            <Plus className="h-4 w-4" />
             Create New
           </Button>
         </div>

@@ -29,8 +29,8 @@ export const AppLayout = ({
       <div className="flex flex-1 overflow-hidden pt-[72px]">
         <AppSidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         <main className={`flex-1 overflow-auto p-6 relative ${contentClassName || ""}`}>
-          <PageBackground variant={backgroundVariant} />
-          <div className="relative z-10 mx-auto max-w-6xl">
+          <PageBackground variant={backgroundVariant} animated={true} />
+          <div className="relative z-10 mx-auto max-w-6xl animate-fade-in">
             {children}
           </div>
         </main>
