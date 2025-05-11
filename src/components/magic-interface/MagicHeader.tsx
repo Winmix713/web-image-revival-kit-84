@@ -1,12 +1,14 @@
 
 import React from "react";
-import { Copy, Share } from "lucide-react";
+import { ChevronLeft, Copy, Share } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface MagicHeaderProps {
   toggleSidebar: () => void;
+  title?: string;
 }
 
-const MagicHeader = ({ toggleSidebar }: MagicHeaderProps) => {
+const MagicHeader = ({ toggleSidebar, title = "Magic Interface" }: MagicHeaderProps) => {
   return (
     <header className="h-8 bg-background/80 backdrop-blur-sm border-b border-white/10 flex items-center justify-between px-2">
       <div className="flex items-center gap-2">
@@ -14,21 +16,9 @@ const MagicHeader = ({ toggleSidebar }: MagicHeaderProps) => {
           onClick={toggleSidebar}
           className="p-1 rounded hover:bg-white/10 text-sidebar-foreground"
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
+          <ChevronLeft size={16} />
         </button>
-        <span className="text-xs font-medium text-sidebar-foreground">Magic Interface</span>
+        <span className="text-xs font-medium text-sidebar-foreground">{title}</span>
       </div>
       
       <div className="flex items-center">

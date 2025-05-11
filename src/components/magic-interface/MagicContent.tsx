@@ -1,10 +1,17 @@
 
 import React from "react";
 import { Copy, Share } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const MagicContent = () => {
+interface MagicContentProps {
+  className?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+const MagicContent = ({ className, title = "Streamline Your Workflow", subtitle = "Powerful tools, seamless experience" }: MagicContentProps) => {
   return (
-    <div className="flex-1 relative overflow-hidden">
+    <div className={cn("flex-1 relative overflow-hidden", className)}>
       {/* Watermark background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
         <h1 className="text-[15vw] font-bold text-white">Magic Background</h1>
@@ -13,8 +20,8 @@ const MagicContent = () => {
       {/* Main content */}
       <div className="relative z-10 h-full flex flex-col">
         <div className="flex-1 flex flex-col items-center justify-center p-6">
-          <h2 className="text-2xl font-bold text-white mb-2">Streamline Your Workflow</h2>
-          <p className="text-muted-foreground">Powerful tools, seamless experience</p>
+          <h2 className="text-2xl font-bold text-white mb-2">{title}</h2>
+          <p className="text-muted-foreground">{subtitle}</p>
         </div>
         
         {/* Action buttons */}
