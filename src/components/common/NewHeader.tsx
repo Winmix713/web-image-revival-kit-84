@@ -47,9 +47,26 @@ const NavItem = ({ to, children, hasNotification }: NavItemProps) => {
   );
 };
 
+const HeaderIconButton = ({ children, className, ...props }: React.ComponentPropsWithoutRef<typeof Button>) => {
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      className={cn(
+        "z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-small gap-2 rounded-full px-0 !gap-0 transition-transform-colors-opacity motion-reduce:transition-none bg-transparent text-white/90 hover:bg-white/10 min-w-10 w-10 h-10",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+};
+
 export const NewHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useIsMobile();
+  const location = useLocation();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -103,30 +120,20 @@ export const NewHeader = () => {
               />
             </div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-white/90 bg-white/10 hover:bg-white/20 rounded-full"
-            >
-              <Keyboard className="h-4 w-4" />
-            </Button>
+            <HeaderIconButton>
+              <Keyboard className="h-5 w-5 text-white/60" />
+            </HeaderIconButton>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-white/90 bg-white/10 hover:bg-white/20 rounded-full"
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
+            <HeaderIconButton className={cn(
+              location.pathname === "/settings" ? "bg-white/15" : "bg-transparent hover:bg-white/10"
+            )}>
+              <Settings className="h-5 w-5 text-white/60" />
+            </HeaderIconButton>
 
-            <Button
-              variant="ghost" 
-              size="icon" 
-              className="h-9 w-9 rounded-full text-white hover:bg-white/10 hover:text-white relative transition-all duration-200 active:scale-95"
-            >
-              <Bell className="h-5 w-5" />
-              <span className="absolute top-1 right-1.5 w-2 h-2 bg-[#ff4a4a] rounded-full border-2 border-[#0066FF] animate-pulse"></span>
-            </Button>
+            <HeaderIconButton className="relative">
+              <Bell className="h-5 w-5 text-white/60" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ff4a4a] rounded-full border-2 border-[#0066FF] animate-pulse"></span>
+            </HeaderIconButton>
             
             <Avatar className="h-8 w-8 cursor-pointer border border-white/20">
               <AvatarImage src="https://img.heroui.chat/image/avatar?w=200&h=200&u=1" alt="User" />
