@@ -118,7 +118,7 @@ const BackgroundEffects = ({ variant = 'default' }: BackgroundEffectsProps) => {
         dy: (Math.random() - 0.5) * particleSpeed,
         size,
         color: particleColors[Math.floor(Math.random() * particleColors.length)],
-        pulse: Math.random() * 0.5,
+        pulse: Math.random() * 0.5 + 0.5, // Ensure pulse starts between 0.5 and 1.0
         pulseDirection: Math.random() > 0.5 ? 1 : -1
       });
     }
@@ -132,9 +132,15 @@ const BackgroundEffects = ({ variant = 'default' }: BackgroundEffectsProps) => {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         
-        // Pulse effect for particle size
+        // Pulse effect for particle size with safe bounds
         p.pulse += 0.01 * p.pulseDirection;
-        if (p.pulse > 1 || p.pulse < 0.5) {
+        
+        // Ensure pulse stays within safe bounds (0.5 to 1.0)
+        if (p.pulse > 1) {
+          p.pulse = 1;
+          p.pulseDirection *= -1;
+        } else if (p.pulse < 0.5) {
+          p.pulse = 0.5;
           p.pulseDirection *= -1;
         }
         
@@ -153,18 +159,26 @@ const BackgroundEffects = ({ variant = 'default' }: BackgroundEffectsProps) => {
         }
         
         // Draw particle with pulsing effect
-        const currentSize = p.size * p.pulse;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, currentSize, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
+        // Ensure the size is always positive
+        const currentSize = Math.max(0.1, p.size * p.pulse);
         
-        // Add glow effect for certain variants
-        if (variant === 'cyber' || variant === 'neon' || variant === 'vibrant') {
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = p.color;
+        try {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, currentSize, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
           ctx.fill();
-          ctx.shadowBlur = 0;
+          
+          // Add glow effect for certain variants
+          if (variant === 'cyber' || variant === 'neon' || variant === 'vibrant') {
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = p.color;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+        } catch (error) {
+          console.error("Error drawing particle:", error);
+          // Skip this particle if there's an error
+          continue;
         }
         
         // Connect particles
