@@ -1,51 +1,52 @@
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import PatternCard from "./PatternCard";
-import { LucideIcon } from "lucide-react";
-
-interface PatternCategory {
-  id: string;
-  title: string;
-  description: string;
-  color: string;
-  icon: React.ReactNode;
-}
+import ComponentDetail from "./ComponentDetail";
+import { getFilteredComponents } from "./componentRegistry";
 
 interface PatternCategoryGridProps {
-  categories: PatternCategory[];
   filter?: string;
 }
 
-const PatternCategoryGrid = ({ categories, filter = "all" }: PatternCategoryGridProps) => {
-  const filteredCategories = filter === "all" 
-    ? categories 
-    : categories.filter(cat => {
-        switch (filter) {
-          case "offensive":
-            return cat.id === "offensive" || cat.id === "transition";
-          case "defensive":
-            return cat.id === "defensive";
-          case "possession":
-            return cat.id === "possession" || cat.id === "setpiece";
-          default:
-            return true;
-        }
-      });
+const PatternCategoryGrid = ({ filter = "all" }: PatternCategoryGridProps) => {
+  const [selectedComponent, setSelectedComponent] = useState<any>(null);
+  const filteredComponents = getFilteredComponents(filter);
+
+  const openComponent = (component: any) => {
+    setSelectedComponent(component);
+  };
+
+  const closeComponent = () => {
+    setSelectedComponent(null);
+  };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {filteredCategories.map((category, index) => (
-        <PatternCard 
-          key={category.id}
-          title={category.title}
-          description={category.description}
-          color={category.color}
-          icon={category.icon}
-          index={index}
-        />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredComponents.map((component, index) => (
+          <PatternCard 
+            key={component.id}
+            title={component.title}
+            description={component.description}
+            color={component.color}
+            icon={component.icon}
+            component={React.isValidElement(component.component) ? component.component : null}
+            index={index}
+            onClick={() => openComponent(component)}
+          />
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {selectedComponent && (
+          <ComponentDetail 
+            component={selectedComponent} 
+            onClose={closeComponent} 
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

@@ -4,13 +4,10 @@ import AppLayout from "@/components/common/AppLayout";
 import PatternBackground from "@/components/patterns/PatternBackground";
 import PatternPageHeader from "@/components/patterns/PatternPageHeader";
 import PatternTabs from "@/components/patterns/PatternTabs";
-import PatternStats from "@/components/patterns/PatternStats";
-import { getPatternCategories } from "@/components/patterns/patternCategories";
 import { motion } from "framer-motion";
 
 const PatternsPage = () => {
   const [activeTab, setActiveTab] = useState("all");
-  const patternCategories = getPatternCategories();
 
   return (
     <AppLayout>
@@ -29,12 +26,9 @@ const PatternsPage = () => {
         <PatternTabs 
           activeTab={activeTab} 
           setActiveTab={setActiveTab} 
-          patternCategories={patternCategories} 
         />
         
-        <PatternStats />
-        
-        {/* Added bottom section with additional call to action */}
+        {/* Added bottom section with additional info */}
         <motion.div 
           className="mt-16 mb-8 py-8 px-6 enhanced-glass rounded-lg border border-[#00F5FF]/20 relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
@@ -48,15 +42,15 @@ const PatternsPage = () => {
           {/* Content */}
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="max-w-2xl">
-              <h2 className="text-xl font-bold text-white mb-2">Ready to analyze your team's performance?</h2>
+              <h2 className="text-xl font-bold text-white mb-2">Using Components in Your App</h2>
               <p className="text-white/70">
-                Upload match footage or connect to your analysis software to start identifying key patterns
-                that can give your team a competitive edge.
+                All components can be easily integrated into your app by copying the code directly.
+                Each component includes both React code and CSS styling.
               </p>
             </div>
             
             <button className="btn-cyan-glow py-2.5 px-6 rounded-lg font-medium">
-              Get Started
+              Back to Dashboard
             </button>
           </div>
           

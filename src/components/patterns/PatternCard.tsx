@@ -9,9 +9,11 @@ interface PatternCardProps {
   color: string;
   index: number;
   icon?: React.ReactNode;
+  component?: React.ReactNode;
+  onClick?: () => void;
 }
 
-const PatternCard = ({ title, description, color, index, icon }: PatternCardProps) => {
+const PatternCard = ({ title, description, color, index, icon, component, onClick }: PatternCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   
   return (
@@ -25,6 +27,7 @@ const PatternCard = ({ title, description, color, index, icon }: PatternCardProp
       transition={{ delay: index * 0.1 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
+      onClick={onClick}
       style={{
         background: `linear-gradient(135deg, ${color}33 0%, ${color}11 100%)`,
         boxShadow: isHovered ? `0 15px 30px -8px ${color}66, 0 0 15px ${color}33` : 'none',
@@ -95,6 +98,15 @@ const PatternCard = ({ title, description, color, index, icon }: PatternCardProp
         >
           {description}
         </p>
+        
+        {/* Component preview (limited size) */}
+        {component && (
+          <div className="mt-auto overflow-hidden h-16 opacity-80 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="transform scale-75 origin-center">
+              {component}
+            </div>
+          </div>
+        )}
         
         {/* Digital circuit lines */}
         <div className="absolute bottom-0 right-0 w-3/4 h-1/2 opacity-10 pointer-events-none transition-opacity duration-300"
