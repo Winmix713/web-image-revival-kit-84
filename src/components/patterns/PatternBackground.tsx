@@ -2,9 +2,16 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshDistortMaterial, Sphere, GradientTexture } from "@react-three/drei";
-import { Vector3 } from "three";
+import * as THREE from "three";
 
-const AnimatedSphere = ({ position, size, speed, distort, color1, color2 }) => {
+const AnimatedSphere = ({ 
+  position, 
+  size, 
+  speed, 
+  distort, 
+  color1, 
+  color2 
+}) => {
   const sphereRef = useRef(null);
   
   useFrame((state) => {
@@ -62,7 +69,7 @@ const PatternBackground = () => {
         <directionalLight position={[0, 10, 5]} intensity={0.5} />
         <PatternGrid />
         <AnimatedSphere 
-          position={new Vector3(-3, 0, -2)} 
+          position={[-3, 0, -2]} 
           size={1.5} 
           speed={0.5} 
           distort={0.4}
@@ -70,7 +77,7 @@ const PatternBackground = () => {
           color2="#0F1122" 
         />
         <AnimatedSphere 
-          position={new Vector3(3, 0, -4)} 
+          position={[3, 0, -4]} 
           size={2} 
           speed={0.3} 
           distort={0.6}
@@ -78,7 +85,7 @@ const PatternBackground = () => {
           color2="#0F1122" 
         />
         <AnimatedSphere 
-          position={new Vector3(0, -2, -6)} 
+          position={[0, -2, -6]} 
           size={3} 
           speed={0.2} 
           distort={0.2}
