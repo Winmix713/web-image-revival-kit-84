@@ -1,9 +1,10 @@
 
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { MeshDistortMaterial, Sphere, GradientTexture } from "@react-three/drei";
+import { MeshDistortMaterial, Sphere } from "@react-three/drei";
 import * as THREE from "three";
 
+// Simplified AnimatedSphere component with proper prop typing
 const AnimatedSphere = ({ 
   position, 
   size, 
@@ -28,13 +29,8 @@ const AnimatedSphere = ({
         speed={0.4} 
         roughness={0.2}
         metalness={0.8}
-      >
-        <GradientTexture 
-          stops={[0, 1]} 
-          colors={[color1, color2]} 
-          size={1024} 
-        />
-      </MeshDistortMaterial>
+        color={color1}
+      />
     </Sphere>
   );
 };
