@@ -11,6 +11,12 @@ interface PatternTabsProps {
 }
 
 const PatternTabs = ({ activeTab, setActiveTab, patternCategories }: PatternTabsProps) => {
+  // Animation variants for the tab contents
+  const contentVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+  
   return (
     <motion.div 
       className="mb-8"
@@ -24,47 +30,118 @@ const PatternTabs = ({ activeTab, setActiveTab, patternCategories }: PatternTabs
         onValueChange={setActiveTab}
         className="w-full"
       >
-        <TabsList className="bg-[#0F1122]/50 backdrop-blur-md border border-[#00F5FF]/20 w-full flex justify-center mb-6">
-          <TabsTrigger 
-            value="all"
-            className="data-[state=active]:bg-[#00F5FF]/20 data-[state=active]:text-[#00F5FF] data-[state=active]:shadow-glow-blue-sm"
-          >
-            All Patterns
-          </TabsTrigger>
-          <TabsTrigger 
-            value="offensive"
-            className="data-[state=active]:bg-[#00F5FF]/20 data-[state=active]:text-[#00F5FF] data-[state=active]:shadow-glow-blue-sm"
-          >
-            Offensive
-          </TabsTrigger>
-          <TabsTrigger 
-            value="defensive"
-            className="data-[state=active]:bg-[#B026FF]/20 data-[state=active]:text-[#B026FF] data-[state=active]:shadow-glow-purple-sm"
-          >
-            Defensive
-          </TabsTrigger>
-          <TabsTrigger 
-            value="possession"
-            className="data-[state=active]:bg-[#FAFF00]/20 data-[state=active]:text-[#FAFF00]"
-          >
-            Possession
-          </TabsTrigger>
-        </TabsList>
+        <div className="relative overflow-hidden rounded-lg mb-8">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#00F5FF]/20 via-[#B026FF]/15 to-[#FAFF00]/10 blur-lg opacity-30" />
+          
+          <TabsList className="bg-[#0F1122]/70 backdrop-blur-xl border border-[#00F5FF]/20 w-full flex justify-center relative z-10 p-1">
+            <TabsTrigger 
+              value="all"
+              className="relative px-6 py-2.5 data-[state=active]:bg-transparent data-[state=active]:text-[#00F5FF]"
+            >
+              <span className="relative z-10">All Patterns</span>
+              {activeTab === "all" && (
+                <motion.div 
+                  layoutId="tab-highlight"
+                  className="absolute inset-0 bg-[#00F5FF]/10 border border-[#00F5FF]/30 rounded-md shadow-[0_0_10px_rgba(0,245,255,0.5)]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </TabsTrigger>
+            
+            <TabsTrigger 
+              value="offensive"
+              className="relative px-6 py-2.5 data-[state=active]:bg-transparent data-[state=active]:text-[#00F5FF]"
+            >
+              <span className="relative z-10">Offensive</span>
+              {activeTab === "offensive" && (
+                <motion.div 
+                  layoutId="tab-highlight"
+                  className="absolute inset-0 bg-[#00F5FF]/10 border border-[#00F5FF]/30 rounded-md shadow-[0_0_10px_rgba(0,245,255,0.5)]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </TabsTrigger>
+            
+            <TabsTrigger 
+              value="defensive"
+              className="relative px-6 py-2.5 data-[state=active]:bg-transparent data-[state=active]:text-[#B026FF]"
+            >
+              <span className="relative z-10">Defensive</span>
+              {activeTab === "defensive" && (
+                <motion.div 
+                  layoutId="tab-highlight"
+                  className="absolute inset-0 bg-[#B026FF]/10 border border-[#B026FF]/30 rounded-md shadow-[0_0_10px_rgba(176,38,255,0.5)]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </TabsTrigger>
+            
+            <TabsTrigger 
+              value="possession"
+              className="relative px-6 py-2.5 data-[state=active]:bg-transparent data-[state=active]:text-[#FAFF00]"
+            >
+              <span className="relative z-10">Possession</span>
+              {activeTab === "possession" && (
+                <motion.div 
+                  layoutId="tab-highlight"
+                  className="absolute inset-0 bg-[#FAFF00]/10 border border-[#FAFF00]/30 rounded-md shadow-[0_0_10px_rgba(250,255,0,0.5)]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </TabsTrigger>
+          </TabsList>
+        </div>
         
         <TabsContent value="all" className="mt-0">
-          <PatternCategoryGrid categories={patternCategories} filter="all" />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={contentVariants}
+            key="all"
+          >
+            <PatternCategoryGrid categories={patternCategories} filter="all" />
+          </motion.div>
         </TabsContent>
         
         <TabsContent value="offensive" className="mt-0">
-          <PatternCategoryGrid categories={patternCategories} filter="offensive" />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={contentVariants}
+            key="offensive"
+          >
+            <PatternCategoryGrid categories={patternCategories} filter="offensive" />
+          </motion.div>
         </TabsContent>
         
         <TabsContent value="defensive" className="mt-0">
-          <PatternCategoryGrid categories={patternCategories} filter="defensive" />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={contentVariants}
+            key="defensive"
+          >
+            <PatternCategoryGrid categories={patternCategories} filter="defensive" />
+          </motion.div>
         </TabsContent>
         
         <TabsContent value="possession" className="mt-0">
-          <PatternCategoryGrid categories={patternCategories} filter="possession" />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={contentVariants}
+            key="possession"
+          >
+            <PatternCategoryGrid categories={patternCategories} filter="possession" />
+          </motion.div>
         </TabsContent>
       </Tabs>
     </motion.div>

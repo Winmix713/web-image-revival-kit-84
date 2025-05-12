@@ -17,9 +17,8 @@ const PatternCard = ({ title, description, color, index, icon }: PatternCardProp
   return (
     <motion.div
       className={cn(
-        "relative h-[280px] w-full overflow-hidden rounded-lg border border-white/5",
-        "hover:shadow-2xl transition-all duration-300 cursor-pointer",
-        "neobrutalism"
+        "relative h-[280px] w-full overflow-hidden rounded-lg",
+        "enhanced-glass transition-all duration-500 cursor-pointer"
       )}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -27,32 +26,51 @@ const PatternCard = ({ title, description, color, index, icon }: PatternCardProp
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       style={{
-        background: `linear-gradient(135deg, ${color}22 0%, ${color}00 100%)`,
-        boxShadow: isHovered ? `0 10px 30px -5px ${color}66, 0 0 15px ${color}33` : 'none',
-        transform: isHovered ? 'translateY(-8px)' : 'none'
+        background: `linear-gradient(135deg, ${color}33 0%, ${color}11 100%)`,
+        boxShadow: isHovered ? `0 15px 30px -8px ${color}66, 0 0 15px ${color}33` : 'none',
+        transform: isHovered ? 'translateY(-8px)' : 'none',
+        border: `1px solid ${isHovered ? color + '50' : 'rgba(255,255,255,0.1)'}`
       }}
     >
-      {/* Glowing border effect */}
+      {/* Glowing background effect */}
       <div 
-        className="absolute inset-0 opacity-0 transition-opacity duration-300"
+        className="absolute inset-0 opacity-0 transition-opacity duration-500"
         style={{ 
-          opacity: isHovered ? 0.8 : 0,
-          background: `linear-gradient(135deg, ${color}55 0%, transparent 100%)`,
-          filter: 'blur(20px)',
+          opacity: isHovered ? 0.15 : 0,
+          background: `radial-gradient(circle at center, ${color} 0%, transparent 70%)`,
+          filter: 'blur(25px)',
           zIndex: -1
         }}
       />
       
+      {/* Animated gradient border on hover */}
+      <div 
+        className="absolute inset-0 opacity-0 transition-opacity duration-500 overflow-hidden"
+        style={{ 
+          opacity: isHovered ? 1 : 0,
+        }}
+      >
+        <div 
+          className="absolute -inset-[2px] rounded-lg z-0"
+          style={{ 
+            background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
+            backgroundSize: '200% 100%',
+            animation: isHovered ? 'shine 2s infinite' : 'none'
+          }}
+        />
+      </div>
+      
       {/* Card content */}
-      <div className="p-6 h-full flex flex-col">
+      <div className="p-6 h-full flex flex-col relative z-10">
         <div 
           className={cn(
-            "flex items-center justify-center w-16 h-16 mb-4 rounded",
-            "transition-all duration-300"
+            "flex items-center justify-center w-16 h-16 mb-4 rounded-md",
+            "transition-all duration-500"
           )}
           style={{ 
             background: isHovered ? color : `${color}22`,
-            transform: isHovered ? 'rotate(5deg) scale(1.1)' : 'rotate(0) scale(1)'
+            transform: isHovered ? 'rotate(5deg) scale(1.1)' : 'rotate(0) scale(1)',
+            boxShadow: isHovered ? `0 0 20px ${color}66` : 'none'
           }}
         >
           {icon}
@@ -63,16 +81,24 @@ const PatternCard = ({ title, description, color, index, icon }: PatternCardProp
             "text-xl font-bold mb-2 transition-all duration-300"
           )}
           style={{ 
-            color: isHovered ? color : 'white'
+            color: isHovered ? color : 'white',
+            textShadow: isHovered ? `0 0 10px ${color}99` : 'none'
           }}
         >
           {title}
         </h3>
         
-        <p className="text-sm text-white/60 mb-5">{description}</p>
+        <p className="text-sm text-white/70 mb-5 transition-all duration-300"
+           style={{
+             color: isHovered ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.7)'
+           }}
+        >
+          {description}
+        </p>
         
         {/* Digital circuit lines */}
-        <div className="absolute bottom-0 right-0 w-3/4 h-1/2 opacity-10 pointer-events-none">
+        <div className="absolute bottom-0 right-0 w-3/4 h-1/2 opacity-10 pointer-events-none transition-opacity duration-300"
+             style={{ opacity: isHovered ? 0.2 : 0.1 }}>
           <svg 
             width="100%" 
             height="100%" 
@@ -90,7 +116,42 @@ const PatternCard = ({ title, description, color, index, icon }: PatternCardProp
           </svg>
         </div>
         
-        {/* Digital noise pattern */}
+        {/* Animated circuit dots */}
+        {isHovered && (
+          <>
+            <motion.div 
+              className="absolute h-2 w-2 rounded-full z-0"
+              style={{ background: color, boxShadow: `0 0 10px ${color}` }}
+              animate={{
+                x: [0, 50, 100, 150, 200, 220, 220],
+                y: [20, 20, 20, 20, 60, 100, 140],
+                opacity: [0, 1, 1, 1, 1, 1, 0]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            <motion.div 
+              className="absolute h-2 w-2 rounded-full z-0"
+              style={{ background: color, boxShadow: `0 0 10px ${color}` }}
+              animate={{
+                x: [220, 220, 150, 100, 70, 40, 0],
+                y: [140, 100, 100, 100, 60, 60, 60],
+                opacity: [0, 1, 1, 1, 1, 1, 0]
+              }}
+              transition={{ 
+                duration: 3.5, 
+                repeat: Infinity,
+                ease: "linear",
+                delay: 0.5
+              }}
+            />
+          </>
+        )}
+        
+        {/* Digital scan effect */}
         <motion.div 
           className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r"
           style={{
@@ -107,6 +168,28 @@ const PatternCard = ({ title, description, color, index, icon }: PatternCardProp
             ease: "linear"
           }}
         />
+        
+        {/* View button that appears on hover */}
+        <div 
+          className="absolute bottom-5 right-5 transition-all duration-300"
+          style={{ 
+            opacity: isHovered ? 1 : 0,
+            transform: isHovered ? 'translateY(0)' : 'translateY(10px)'
+          }}
+        >
+          <motion.button
+            className="px-4 py-1.5 rounded-md text-sm font-medium"
+            style={{ 
+              background: color,
+              color: '#0F1122',
+              boxShadow: `0 0 15px ${color}66`
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            View
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );
