@@ -24,26 +24,24 @@ interface NavLinkProps {
 
 const NavLink = ({ href, isActive, children, hasNotification }: NavLinkProps) => {
   return (
-    <NavbarItem isActive={isActive} className="relative">
+    <NavbarItem isActive={isActive}>
       <Link
         href={href}
         color={isActive ? "primary" : "foreground"}
-        className="w-full text-sm font-medium"
-        style={{ '--hover-opacity': '0.8' } as React.CSSProperties}
+        className={`w-full text-sm font-medium transition-colors ${
+          isActive ? "text-primary-500" : "text-foreground-500 hover:text-foreground-300"
+        }`}
       >
         <span className="relative">
           {children}
           {hasNotification && (
-            <span className="absolute -top-1 -right-2 flex h-3 w-3">
-              <span className="animate-ping absolute h-full w-full rounded-full bg-danger-500 opacity-75" />
-              <span className="rounded-full h-3 w-3 bg-danger-500" />
+            <span className="absolute -top-1 -right-2 flex h-2 w-2">
+              <span className="absolute h-full w-full rounded-full bg-primary-500 opacity-75 animate-ping" />
+              <span className="rounded-full h-2 w-2 bg-primary-500" />
             </span>
           )}
         </span>
       </Link>
-      {isActive && (
-        <div className="absolute -bottom-[2px] left-0 h-[2px] w-full bg-primary-500" />
-      )}
     </NavbarItem>
   );
 };
@@ -54,125 +52,99 @@ export const Header = () => {
   return (
     <Navbar
       isBlurred
-      isBordered
+      isBordered={false}
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-background/70 backdrop-blur-xl border-white/10"
-      maxWidth="2xl"
+      className="bg-[#0066FF] dark"
+      maxWidth="full"
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden text-foreground"
-        />
-        <NavbarBrand className="gap-2">
-          <div className="bg-primary-500 p-1.5 rounded flex items-center justify-center">
-            <Icon icon="lucide:trending-up" className="text-white h-5 w-5" />
-          </div>
-          <p className="font-bold text-inherit text-lg">LeagueSync</p>
+        <NavbarBrand className="gap-2 mr-8">
+          <Icon icon="lucide:box" className="text-white h-6 w-6" />
+          <p className="font-bold text-white text-lg">ACME</p>
         </NavbarBrand>
+
+        <NavbarItem className="hidden lg:flex">
+          <div className="flex items-center gap-2">
+            <span className="text-white/60">Apps</span>
+            <Icon icon="lucide:chevron-right" className="h-4 w-4 text-white/60" />
+            <span className="text-white/60">iOS App</span>
+            <Icon icon="lucide:chevron-right" className="h-4 w-4 text-white/60" />
+            <span className="text-white font-medium">TestFlight</span>
+          </div>
+        </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavLink href="#" isActive>Dashboard</NavLink>
-        <NavLink href="/leagues">Leagues</NavLink>
-        <NavLink href="/matches">Matches</NavLink>
-        <NavLink href="/analysis">Analysis</NavLink>
-        <NavLink href="/patterns" hasNotification>Patterns</NavLink>
-      </NavbarContent>
+      <NavbarContent justify="end" className="basis-1/5 sm:basis-full gap-4">
+        <NavbarItem className="hidden sm:flex flex-1 justify-center max-w-md">
+          <div className="w-full flex relative items-center">
+            <Icon 
+              icon="lucide:search" 
+              className="h-4 w-4 absolute left-3 text-white/40"
+            />
+            <input
+              type="search"
+              placeholder="Search..."
+              className="w-full bg-white/10 rounded-full py-1.5 pl-10 pr-4 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
+            />
+          </div>
+        </NavbarItem>
 
-      <NavbarContent justify="end" className="basis-1/5 sm:basis-full">
-        <NavbarItem>
-          <Tooltip content="Notifications" placement="bottom">
-            <Button
-              isIconOnly
-              variant="light"
-              radius="full"
-              className="relative text-foreground"
-            >
-              <Icon icon="lucide:bell" className="h-5 w-5" />
-              <Badge
-                content=""
-                shape="circle"
-                color="danger"
-                size="sm"
-                className="absolute -top-1 -right-1"
-              />
-            </Button>
-          </Tooltip>
-        </NavbarItem>
         <NavbarItem>
           <Button
-            variant="flat"
-            color="default"
+            isIconOnly
+            variant="light"
             radius="full"
-            className="text-sm font-medium gap-2"
-            startContent={<Icon icon="lucide:user" className="h-4 w-4" />}
+            className="text-white/90 bg-white/10"
           >
-            Account
+            <Icon icon="lucide:keyboard" className="h-4 w-4" />
           </Button>
         </NavbarItem>
+
         <NavbarItem>
           <Button
-            color="primary"
-            variant="solid"
+            isIconOnly
+            variant="light"
             radius="full"
-            className="font-medium text-sm"
-            startContent={<Icon icon="lucide:plus" className="h-4 w-4" />}
+            className="text-white/90 bg-white/10"
           >
-            Create New
+            <Icon icon="lucide:settings" className="h-4 w-4" />
           </Button>
+        </NavbarItem>
+
+        <NavbarItem>
+          <Avatar
+            src="https://img.heroui.chat/image/avatar?w=200&h=200&u=1"
+            size="sm"
+            className="cursor-pointer"
+          />
         </NavbarItem>
       </NavbarContent>
 
       <NavbarMenu className="gap-2 bg-background/95 backdrop-blur-xl pt-6">
         <NavbarMenuItem>
-          <Link
-            href="#"
-            size="lg"
-            color="primary"
-            className="w-full font-medium"
-          >
+          <Link href="/dashboard" size="lg" color="foreground">
             Dashboard
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link
-            href="/leagues"
-            size="lg"
-            className="w-full text-foreground-600"
-          >
-            Leagues
+          <Link href="/deployments" size="lg" color="foreground">
+            Deployments
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link
-            href="/matches"
-            size="lg"
-            className="w-full text-foreground-600"
-          >
-            Matches
+          <Link href="/analytics" size="lg" color="foreground">
+            Analytics
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link
-            href="/analysis"
-            size="lg"
-            className="w-full text-foreground-600"
-          >
-            Analysis
+          <Link href="/team" size="lg" color="foreground">
+            Team
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link
-            href="/patterns"
-            size="lg"
-            className="w-full text-foreground-600"
-          >
-            Patterns
-            <Badge color="danger" variant="flat" className="ml-2">
-              New
-            </Badge>
+          <Link href="/settings" size="lg" color="foreground">
+            Settings
           </Link>
         </NavbarMenuItem>
       </NavbarMenu>
