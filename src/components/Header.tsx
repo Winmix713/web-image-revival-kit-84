@@ -1,3 +1,4 @@
+
 import React from "react";
 // This file is being replaced by the new header component
 // See src/components/common/NewHeader.tsx

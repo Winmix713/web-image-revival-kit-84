@@ -1,10 +1,10 @@
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Box, ChevronRight, Search, Keyboard, Settings, Bell, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import NavLink from "@/components/ui/nav-link";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Separator } from "@/components/ui/separator";
@@ -12,22 +12,37 @@ import { Separator } from "@/components/ui/separator";
 interface NavItemProps {
   to: string;
   children: React.ReactNode;
-  isActive?: boolean;
   hasNotification?: boolean;
 }
 
-const NavItem = ({ to, children, isActive = false, hasNotification }: NavItemProps) => {
+const NavItem = ({ to, children, hasNotification }: NavItemProps) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+  
   return (
     <li className="relative">
-      <NavLink href={to} isActive={isActive}>
+      <Link
+        to={to}
+        className={cn(
+          "relative px-5 py-2.5 rounded-md transition-all duration-200 font-medium text-sm flex items-center",
+          isActive 
+            ? "text-white bg-white/15" 
+            : "text-white/70 hover:text-white hover:bg-white/10"
+        )}
+      >
         {children}
+        
         {hasNotification && (
-          <span className="absolute -top-1 -right-2 flex h-2 w-2">
-            <span className="absolute h-full w-full rounded-full bg-[#ff4a4a] opacity-75 animate-ping" />
-            <span className="rounded-full h-2 w-2 bg-[#ff4a4a]" />
+          <span className="ml-1.5 flex h-2 w-2">
+            <span className="animate-ping absolute h-2 w-2 rounded-full bg-[#ff4a4a] opacity-75" />
+            <span className="relative h-2 w-2 rounded-full bg-[#ff4a4a]" />
           </span>
         )}
-      </NavLink>
+        
+        {isActive && (
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-t-sm" />
+        )}
+      </Link>
     </li>
   );
 };
@@ -67,10 +82,10 @@ export const NewHeader = () => {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex gap-1">
-            <ul className="flex gap-1">
+          <nav className="hidden lg:flex items-center justify-center">
+            <ul className="flex items-center gap-1">
               <NavItem to="/">Dashboard</NavItem>
-              <NavItem to="/leagues" isActive={true}>Leagues</NavItem>
+              <NavItem to="/leagues">Leagues</NavItem>
               <NavItem to="/matches">Matches</NavItem>
               <NavItem to="/analysis">Analysis</NavItem>
               <NavItem to="/patterns" hasNotification={true}>Patterns</NavItem>
@@ -133,20 +148,20 @@ export const NewHeader = () => {
                 />
               </div>
               <nav className="flex flex-col gap-2">
-                <NavLink href="/">Dashboard</NavLink>
-                <NavLink href="/leagues" isActive={true}>Leagues</NavLink>
-                <NavLink href="/matches">Matches</NavLink>
-                <NavLink href="/analysis">Analysis</NavLink>
-                <NavLink href="/patterns">
+                <Link to="/" className="px-4 py-2 text-foreground hover:bg-accent rounded-md">Dashboard</Link>
+                <Link to="/leagues" className="px-4 py-2 text-foreground hover:bg-accent rounded-md">Leagues</Link>
+                <Link to="/matches" className="px-4 py-2 text-foreground hover:bg-accent rounded-md">Matches</Link>
+                <Link to="/analysis" className="px-4 py-2 text-foreground hover:bg-accent rounded-md">Analysis</Link>
+                <Link to="/patterns" className="px-4 py-2 text-foreground hover:bg-accent rounded-md flex items-center">
                   Patterns
-                  <span className="absolute -top-1 -right-2 flex h-3 w-3">
-                    <span className="animate-ping absolute h-full w-full rounded-full bg-[#ff4a4a] opacity-75"></span>
-                    <span className="rounded-full h-3 w-3 bg-[#ff4a4a]"></span>
+                  <span className="ml-2 flex h-2 w-2">
+                    <span className="animate-ping absolute h-2 w-2 rounded-full bg-[#ff4a4a] opacity-75" />
+                    <span className="relative h-2 w-2 rounded-full bg-[#ff4a4a]" />
                   </span>
-                </NavLink>
+                </Link>
                 <Separator className="my-2 bg-white/10" />
-                <NavLink href="/settings">Settings</NavLink>
-                <NavLink href="/profile">Profile</NavLink>
+                <Link to="/settings" className="px-4 py-2 text-foreground hover:bg-accent rounded-md">Settings</Link>
+                <Link to="/profile" className="px-4 py-2 text-foreground hover:bg-accent rounded-md">Profile</Link>
               </nav>
             </div>
           </div>
