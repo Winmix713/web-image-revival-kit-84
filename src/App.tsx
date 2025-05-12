@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LeagueManagement from "./pages/LeagueManagement";
 import PatternsPage from "./pages/Patterns";
+import NewHeader from "./components/common/NewHeader";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <NewHeader />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/leagues" element={<Index />} />
