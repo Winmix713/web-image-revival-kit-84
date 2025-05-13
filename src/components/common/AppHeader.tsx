@@ -5,18 +5,30 @@ import { Bell, User, Menu, X, Plus, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import NavLink from "@/components/ui/nav-link";
+import { Link, useLocation } from "react-router-dom";
 
 interface AppHeaderProps {
   toggleSidebar?: () => void;
   title?: string;
 }
 
-export const AppHeader = ({ toggleSidebar, title = "LeagueSync" }: AppHeaderProps) => {
+export const AppHeader = ({ toggleSidebar, title = "V-SPORTS" }: AppHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useIsMobile();
+  const location = useLocation();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  
+  const navItems = [
+    { path: "/", text: "Dashboard" },
+    { path: "/analysis", text: "Analysis" },
+    { path: "/matches", text: "Matches" },
+    { path: "/league-management", text: "League Management" },
+    { path: "/statistics", text: "Statistics" },
+    { path: "/teams", text: "Teams" },
+    { path: "/settings", text: "Settings" },
+    { path: "/system", text: "System" },
+  ];
 
   return (
     <header className="fixed top-0 w-full z-50">
@@ -56,17 +68,24 @@ export const AppHeader = ({ toggleSidebar, title = "LeagueSync" }: AppHeaderProp
             />
           </div>
           
-          <NavLink href="/" isActive={false}>Dashboard</NavLink>
-          <NavLink href="/leagues">Leagues</NavLink>
-          <NavLink href="/matches" isActive={true}>Matches</NavLink>
-          <NavLink href="/analysis">Analysis</NavLink>
-          <NavLink href="/patterns">
-            Patterns
-            <span className="absolute -top-1 -right-2 flex h-3 w-3">
-              <span className="animate-ping absolute h-full w-full rounded-full bg-[#ff4a4a] opacity-75"></span>
-              <span className="rounded-full h-3 w-3 bg-[#ff4a4a]"></span>
-            </span>
-          </NavLink>
+          {navItems.map((item) => (
+            <Link 
+              key={item.path}
+              to={item.path}
+              className={cn(
+                "relative text-sm px-4 py-2.5 block transition-colors hover:text-white group",
+                location.pathname === item.path 
+                  ? "text-white font-medium" 
+                  : "text-muted-foreground"
+              )}
+            >
+              <span className="relative z-10">{item.text}</span>
+              {location.pathname === item.path && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#3a36e0] opacity-70 rounded-sm" />
+              )}
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#3a36e0] transform scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100 opacity-0 group-hover:opacity-70" />
+            </Link>
+          ))}
         </nav>
         
         {/* Right Side Actions */}
