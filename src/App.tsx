@@ -5,10 +5,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import LeagueManagement from "./pages/LeagueManagement";
 import PatternsPage from "./pages/Patterns";
-import NewHeader from "./components/common/NewHeader";
+import Statistics from "./pages/Statistics";
+import Matches from "./pages/Matches";
+import Analysis from "./pages/Analysis";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -18,18 +22,15 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <NewHeader />
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/leagues" element={<Index />} />
-          <Route path="/matches" element={<Index />} />
-          <Route path="/analysis" element={<Index />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/leagues" element={<LeagueManagement />} />
+          <Route path="/matches" element={<Matches />} />
+          <Route path="/analysis" element={<Analysis />} />
           <Route path="/patterns" element={<PatternsPage />} />
-          <Route path="/league-analytics" element={<Index />} />
+          <Route path="/statistics" element={<Statistics />} />
           <Route path="/league-management" element={<LeagueManagement />} />
-          <Route path="/integrations" element={<Index />} />
-          <Route path="/predictions" element={<Index />} />
-          <Route path="/settings" element={<Index />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

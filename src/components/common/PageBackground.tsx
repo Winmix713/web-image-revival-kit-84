@@ -1,74 +1,77 @@
 
 import React from "react";
-import { cn } from "@/lib/utils";
-import BackgroundEffects from "./BackgroundEffects";
+import { motion } from "framer-motion";
 
 interface PageBackgroundProps {
-  variant?: "default" | "subtle" | "vibrant" | "cyber" | "neon";
-  className?: string;
+  variant?: "default" | "subtle" | "vibrant";
   animated?: boolean;
 }
 
-export const PageBackground = ({ 
+const PageBackground: React.FC<PageBackgroundProps> = ({ 
   variant = "default",
-  className,
-  animated = true
-}: PageBackgroundProps) => {
+  animated = true 
+}) => {
+  const getBackgroundClasses = () => {
+    switch (variant) {
+      case "vibrant":
+        return "bg-[radial-gradient(ellipse_at_top,rgba(59,54,224,0.15),transparent_50%)] bg-[radial-gradient(ellipse_at_bottom_right,rgba(155,135,245,0.15),transparent_50%)]";
+      case "subtle":
+        return "bg-[radial-gradient(ellipse_at_top,rgba(59,54,224,0.08),transparent_50%)] bg-[radial-gradient(ellipse_at_bottom_right,rgba(155,135,245,0.08),transparent_50%)]";
+      default:
+        return "bg-[radial-gradient(ellipse_at_top,rgba(59,54,224,0.12),transparent_60%)] bg-[radial-gradient(ellipse_at_bottom_right,rgba(155,135,245,0.12),transparent_60%)]";
+    }
+  };
+
   return (
-    <div 
-      className={cn("fixed top-0 right-0 w-full h-full pointer-events-none", className)}
-      aria-hidden="true"
-    >
-      {variant === "default" && (
+    <div className="fixed inset-0 -z-10 overflow-hidden">
+      <div className={`absolute inset-0 ${getBackgroundClasses()}`}></div>
+      
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
+      
+      {/* Animated elements - only render if animated prop is true */}
+      {animated && (
         <>
-          <div className="absolute top-0 right-0 w-full h-64 bg-gradient-to-b from-[#3a36e0]/20 via-[#9b87f5]/15 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#ff4a4a]/10 blur-3xl animate-pulse" style={{ animationDuration: '10s' }} />
-          <div className="absolute top-20 right-20 w-72 h-72 rounded-full bg-[#9b87f5]/15 blur-3xl animate-pulse" style={{ animationDuration: '15s' }} />
-          <div className="absolute bottom-40 right-20 w-96 h-96 rounded-full bg-[#3a36e0]/15 blur-3xl animate-pulse" style={{ animationDuration: '12s' }} />
+          <motion.div 
+            className="absolute -top-40 -left-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"
+            animate={{
+              x: [0, 40, 0],
+              y: [0, 30, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          
+          <motion.div 
+            className="absolute -bottom-20 -right-20 w-60 h-60 bg-purple-500/5 rounded-full blur-3xl"
+            animate={{
+              x: [0, -30, 0],
+              y: [0, -40, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          
+          <motion.div 
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-blue-500/[0.03] to-purple-500/[0.03] rounded-full blur-3xl opacity-60"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.4, 0.6, 0.4],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
         </>
       )}
-      
-      {variant === "subtle" && (
-        <>
-          <div className="absolute top-0 right-0 w-full h-48 bg-gradient-to-b from-[#3a36e0]/10 via-[#9b87f5]/5 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-[#ff4a4a]/5 blur-3xl" />
-          <div className="absolute top-40 right-40 w-56 h-56 rounded-full bg-[#9b87f5]/5 blur-3xl" />
-        </>
-      )}
-      
-      {variant === "vibrant" && (
-        <>
-          <div className="absolute top-0 right-0 w-full h-96 bg-gradient-to-b from-[#3a36e0]/25 via-[#9b87f5]/20 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[#ff4a4a]/15 blur-3xl animate-pulse" style={{ animationDuration: '8s' }} />
-          <div className="absolute top-10 right-10 w-96 h-96 rounded-full bg-[#9b87f5]/20 blur-3xl animate-pulse" style={{ animationDuration: '15s' }} />
-          <div className="absolute bottom-20 right-20 w-[30rem] h-[30rem] rounded-full bg-[#3a36e0]/20 blur-3xl animate-pulse" style={{ animationDuration: '12s' }} />
-          <div className="absolute -top-40 -left-20 w-[40rem] h-[40rem] rounded-full bg-[#6e59A5]/15 blur-3xl animate-pulse" style={{ animationDuration: '20s' }} />
-        </>
-      )}
-      
-      {variant === "cyber" && (
-        <>
-          <div className="absolute inset-0 cyber-grid opacity-30" />
-          <div className="absolute top-0 right-0 w-full h-64 bg-gradient-to-b from-[#00F5FF]/20 via-[#B026FF]/15 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[#00F5FF]/15 blur-3xl animate-pulse" style={{ animationDuration: '12s' }} />
-          <div className="absolute top-20 right-10 w-[35rem] h-[35rem] rounded-full bg-[#B026FF]/10 blur-3xl animate-pulse" style={{ animationDuration: '18s' }} />
-        </>
-      )}
-      
-      {variant === "neon" && (
-        <>
-          <div className="absolute top-0 right-0 w-full h-64 bg-gradient-to-b from-[#00F5FF]/15 via-[#FAFF00]/10 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#00F5FF]/15 blur-3xl animate-pulse" style={{ animationDuration: '8s' }} />
-          <div className="absolute top-20 right-20 w-72 h-72 rounded-full bg-[#FAFF00]/10 blur-3xl animate-pulse" style={{ animationDuration: '15s' }} />
-          <div className="absolute bottom-40 right-20 w-96 h-96 rounded-full bg-[#B026FF]/10 blur-3xl animate-pulse" style={{ animationDuration: '12s' }} />
-          <div className="absolute top-1/3 left-0 w-full h-px bg-[#00F5FF]/20" />
-          <div className="absolute top-2/3 left-0 w-full h-px bg-[#00F5FF]/20" />
-          <div className="absolute left-1/3 top-0 w-px h-full bg-[#00F5FF]/20" />
-          <div className="absolute left-2/3 top-0 w-px h-full bg-[#00F5FF]/20" />
-        </>
-      )}
-      
-      {animated && <BackgroundEffects variant={variant} />}
     </div>
   );
 };

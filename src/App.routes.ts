@@ -4,11 +4,13 @@
 // as we can't directly modify App.tsx in this request.
 
 export const appRoutes = [
-  { path: "/", component: "Index" },
+  { path: "/", component: "Dashboard" },
   { path: "/matches", component: "Matches" },
-  { path: "/advanced-pattern", component: "AdvancedPattern" },
   { path: "/analysis", component: "Analysis" },
-  { path: "/league", component: "League" },
+  { path: "/patterns", component: "Patterns" },
+  { path: "/statistics", component: "Statistics" },
+  { path: "/leagues", component: "LeagueManagement" },
   { path: "/league-management", component: "LeagueManagement" },
+  { path: "/settings", component: "Settings" },
   { path: "*", component: "NotFound" }
 ];
