@@ -26,6 +26,12 @@ export const gridClasses = {
   
   // Form group grid
   form: "grid grid-cols-1 md:grid-cols-2 gap-6",
+
+  // Team grid for team listings
+  teams: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+
+  // Statistics grid for metrics display
+  stats: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4",
 };
 
 /**
@@ -52,6 +58,7 @@ export const textClasses = {
   truncate: "truncate",
   multiLine: "line-clamp-2",
   noWrap: "whitespace-nowrap",
+  withTooltip: "truncate group-hover:overflow-visible",
 };
 
 /**
@@ -62,4 +69,24 @@ export const createGrid = (
   customClasses?: string
 ) => {
   return cn(gridClasses[type], customClasses);
+};
+
+/**
+ * Helper function to create responsive container classes
+ */
+export const createContainer = (
+  type: keyof typeof containerClasses = "default",
+  customClasses?: string
+) => {
+  return cn(containerClasses[type], customClasses);
+};
+
+/**
+ * Helper function to create text truncation classes
+ */
+export const createTextStyle = (
+  type: keyof typeof textClasses = "truncate",
+  customClasses?: string
+) => {
+  return cn(textClasses[type], customClasses);
 };
