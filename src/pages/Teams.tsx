@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Shield, Trophy, Globe, CalendarDays, Star } from 'lucide-react';
-import { toast } from "@/components/ui/use-toast";
-import { PREMIER_LEAGUE_TEAMS, Team } from '../data/premier-league-teams';
+import { PREMIER_LEAGUE_TEAMS } from '../data/premier-league-teams';
 import TeamDetail from '../components/teams/TeamDetail';
 import TeamStatsCard from '../components/teams/TeamStatsCard';
 import TeamComparison from '../components/teams/TeamComparison';
@@ -11,44 +10,42 @@ import TeamCompareButton from '../components/teams/TeamCompareButton';
 import TeamListSection from '../components/teams/TeamListSection';
 import AppLayout from '@/components/common/AppLayout';
 import PageHeader from '@/components/common/PageHeader';
-import { useTeamSelection } from '../hooks/useTeamSelection';
+import { TeamSelectionProvider, useTeamSelection } from '../contexts/TeamSelectionContext';
+import { useTeamFilters } from '../hooks/useTeamFilters';
 
-const Teams = () => {
-  // State management
-  const [searchQuery, setSearchQuery] = useState('');
+// Filter button configuration
+const filterButtons = [
+  { icon: <Trophy className="h-4 w-4" />, label: "Trófeák" },
+  { icon: <Globe className="h-4 w-4" />, label: "Származás" },
+  { icon: <CalendarDays className="h-4 w-4" />, label: "Alapítás éve" },
+  { icon: <Star className="h-4 w-4" />, label: "Kedvencek" },
+];
+
+const TeamsContent = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   
   const { 
     selectedTeam, 
-    setSelectedTeam, 
     teamsToCompare, 
-    setTeamsToCompare,
     showComparison, 
     setShowComparison,
     favoriteTeams,
-    toggleFavorite,
     handleTeamClick,
     handleCloseDetail,
     handleCompareTeam,
-    handleCloseComparison
+    handleCloseComparison,
+    setTeamsToCompare
   } = useTeamSelection();
+  
+  const {
+    searchQuery,
+    filteredTeams,
+    handleSearchChange
+  } = useTeamFilters(PREMIER_LEAGUE_TEAMS);
   
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // Filtered teams based on search query
-  const filteredTeams = PREMIER_LEAGUE_TEAMS.filter(team => 
-    team.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Filter button configuration
-  const filterButtons = [
-    { icon: <Trophy className="h-4 w-4" />, label: "Trófeák" },
-    { icon: <Globe className="h-4 w-4" />, label: "Származás" },
-    { icon: <CalendarDays className="h-4 w-4" />, label: "Alapítás éve" },
-    { icon: <Star className="h-4 w-4" />, label: "Kedvencek" },
-  ];
 
   return (
     <AppLayout backgroundVariant="subtle" headerTitle="Csapatok">
@@ -58,16 +55,20 @@ const Teams = () => {
         icon={Shield}
         variant="gradient"
         actions={
-          <TeamPageActions 
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            filterOpen={filterOpen}
-            setFilterOpen={setFilterOpen}
-            filterButtons={filterButtons}
-            teamsToCompare={teamsToCompare}
-            showComparison={showComparison}
-            setShowComparison={setShowComparison}
-          />
+          <div className="flex items-center gap-3">
+            <TeamFilterBar 
+              searchQuery={searchQuery}
+              setSearchQuery={handleSearchChange}
+              filterOpen={filterOpen}
+              setFilterOpen={setFilterOpen}
+              filterButtons={filterButtons}
+            />
+            <TeamCompareButton 
+              teamsToCompare={teamsToCompare} 
+              showComparison={showComparison}
+              setShowComparison={setShowComparison} 
+            />
+          </div>
         }
       />
       
@@ -80,7 +81,7 @@ const Teams = () => {
           favoriteTeams={favoriteTeams}
           handleTeamClick={handleTeamClick}
           handleCompareTeam={handleCompareTeam}
-          toggleFavorite={toggleFavorite}
+          toggleFavorite={(teamId) => useTeamSelection().toggleFavorite(teamId)}
           setTeamsToCompare={setTeamsToCompare}
         />
       </div>
@@ -104,32 +105,11 @@ const Teams = () => {
   );
 };
 
-// Extracted component for page actions
-const TeamPageActions = ({ 
-  searchQuery, 
-  setSearchQuery, 
-  filterOpen, 
-  setFilterOpen, 
-  filterButtons,
-  teamsToCompare,
-  showComparison,
-  setShowComparison
-}) => {
+const Teams = () => {
   return (
-    <div className="flex items-center gap-3">
-      <TeamFilterBar 
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        filterOpen={filterOpen}
-        setFilterOpen={setFilterOpen}
-        filterButtons={filterButtons}
-      />
-      <TeamCompareButton 
-        teamsToCompare={teamsToCompare} 
-        showComparison={showComparison}
-        setShowComparison={setShowComparison} 
-      />
-    </div>
+    <TeamSelectionProvider>
+      <TeamsContent />
+    </TeamSelectionProvider>
   );
 };
 
