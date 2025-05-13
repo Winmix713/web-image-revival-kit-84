@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Shield, Trophy, Globe, CalendarDays, Star } from 'lucide-react';
+import { toast } from "@/components/ui/use-toast";
 import { PREMIER_LEAGUE_TEAMS, Team } from '../data/premier-league-teams';
 import TeamDetail from '../components/teams/TeamDetail';
 import TeamStatsCard from '../components/teams/TeamStatsCard';
@@ -10,64 +11,36 @@ import TeamCompareButton from '../components/teams/TeamCompareButton';
 import TeamListSection from '../components/teams/TeamListSection';
 import AppLayout from '@/components/common/AppLayout';
 import PageHeader from '@/components/common/PageHeader';
+import { useTeamSelection } from '../hooks/useTeamSelection';
 
 const Teams = () => {
   // State management
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
-  const [teamsToCompare, setTeamsToCompare] = useState<Team[]>([]);
-  const [showComparison, setShowComparison] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
-  const [favoriteTeams, setFavoriteTeams] = useState<string[]>([]);
+  
+  const { 
+    selectedTeam, 
+    setSelectedTeam, 
+    teamsToCompare, 
+    setTeamsToCompare,
+    showComparison, 
+    setShowComparison,
+    favoriteTeams,
+    toggleFavorite,
+    handleTeamClick,
+    handleCloseDetail,
+    handleCompareTeam,
+    handleCloseComparison
+  } = useTeamSelection();
   
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Load favorite teams from localStorage
-    const storedFavorites = localStorage.getItem('favoriteTeams');
-    if (storedFavorites) {
-      setFavoriteTeams(JSON.parse(storedFavorites));
-    }
   }, []);
 
   // Filtered teams based on search query
   const filteredTeams = PREMIER_LEAGUE_TEAMS.filter(team => 
     team.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  // Event handlers
-  const handleTeamClick = (team: Team) => {
-    setSelectedTeam(team);
-  };
-
-  const handleCloseDetail = () => {
-    setSelectedTeam(null);
-  };
-
-  const handleCompareTeam = (team: Team) => {
-    if (teamsToCompare.length < 2 && !teamsToCompare.find(t => t.id === team.id)) {
-      const updatedTeams = [...teamsToCompare, team];
-      setTeamsToCompare(updatedTeams);
-      
-      if (updatedTeams.length === 2) {
-        setSelectedTeam(null);
-        setShowComparison(true);
-      }
-    }
-  };
-
-  const handleCloseComparison = () => {
-    setShowComparison(false);
-    setTeamsToCompare([]);
-  };
-
-  const toggleFavorite = (teamId: string) => {
-    const updatedFavorites = favoriteTeams.includes(teamId)
-      ? favoriteTeams.filter(id => id !== teamId)
-      : [...favoriteTeams, teamId];
-    
-    setFavoriteTeams(updatedFavorites);
-    localStorage.setItem('favoriteTeams', JSON.stringify(updatedFavorites));
-  };
 
   // Filter button configuration
   const filterButtons = [
@@ -85,20 +58,16 @@ const Teams = () => {
         icon={Shield}
         variant="gradient"
         actions={
-          <div className="flex items-center gap-3">
-            <TeamFilterBar 
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              filterOpen={filterOpen}
-              setFilterOpen={setFilterOpen}
-              filterButtons={filterButtons}
-            />
-            <TeamCompareButton 
-              teamsToCompare={teamsToCompare} 
-              showComparison={showComparison}
-              setShowComparison={setShowComparison} 
-            />
-          </div>
+          <TeamPageActions 
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            filterOpen={filterOpen}
+            setFilterOpen={setFilterOpen}
+            filterButtons={filterButtons}
+            teamsToCompare={teamsToCompare}
+            showComparison={showComparison}
+            setShowComparison={setShowComparison}
+          />
         }
       />
       
@@ -132,6 +101,35 @@ const Teams = () => {
         />
       )}
     </AppLayout>
+  );
+};
+
+// Extracted component for page actions
+const TeamPageActions = ({ 
+  searchQuery, 
+  setSearchQuery, 
+  filterOpen, 
+  setFilterOpen, 
+  filterButtons,
+  teamsToCompare,
+  showComparison,
+  setShowComparison
+}) => {
+  return (
+    <div className="flex items-center gap-3">
+      <TeamFilterBar 
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        filterOpen={filterOpen}
+        setFilterOpen={setFilterOpen}
+        filterButtons={filterButtons}
+      />
+      <TeamCompareButton 
+        teamsToCompare={teamsToCompare} 
+        showComparison={showComparison}
+        setShowComparison={setShowComparison} 
+      />
+    </div>
   );
 };
 

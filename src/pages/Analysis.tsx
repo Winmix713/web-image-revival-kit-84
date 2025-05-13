@@ -9,31 +9,52 @@ import GoalAnalysisChart from '@/components/analysis/GoalAnalysisChart';
 import AnalysisTabs from '@/components/analysis/AnalysisTabs';
 import SeasonAnalyticsCard from '@/components/analysis/SeasonAnalyticsCard';
 import { createGrid } from '@/lib/grid-utils';
+import AnalyticsContext from '@/contexts/AnalyticsContext';
 
 const Analysis = () => {
   const [timeFrame, setTimeFrame] = useState('month');
+  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+  const [chartType, setChartType] = useState('line');
+
+  const analyticsContextValue = {
+    timeFrame,
+    setTimeFrame,
+    selectedTeam,
+    setSelectedTeam,
+    chartType,
+    setChartType
+  };
 
   return (
-    <AppLayout backgroundVariant="vibrant">
-      <PageHeader 
-        title="Analysis Dashboard"
-        description="Advanced analytics and performance insights for your teams and leagues"
-        icon={LineChart}
-        variant="gradient"
-        actions={
-          <TimeFrameSelector timeFrame={timeFrame} setTimeFrame={setTimeFrame} />
-        }
-      />
+    <AnalyticsContext.Provider value={analyticsContextValue}>
+      <AppLayout backgroundVariant="vibrant">
+        <PageHeader 
+          title="Analysis Dashboard"
+          description="Advanced analytics and performance insights for your teams and leagues"
+          icon={LineChart}
+          variant="gradient"
+          actions={
+            <TimeFrameSelector timeFrame={timeFrame} setTimeFrame={setTimeFrame} />
+          }
+        />
 
-      <div className={createGrid("twoColumn", "mb-8")}>
-        <TeamPerformanceChart />
-        <GoalAnalysisChart />
-      </div>
+        <AnalyticsCharts />
+        
+        <AnalysisTabs timeFrame={timeFrame} />
+        
+        <SeasonAnalyticsCard />
+      </AppLayout>
+    </AnalyticsContext.Provider>
+  );
+};
 
-      <AnalysisTabs timeFrame={timeFrame} />
-      
-      <SeasonAnalyticsCard />
-    </AppLayout>
+// Extracted component for charts section
+const AnalyticsCharts = () => {
+  return (
+    <div className={createGrid("twoColumn", "mb-8")}>
+      <TeamPerformanceChart />
+      <GoalAnalysisChart />
+    </div>
   );
 };
 
