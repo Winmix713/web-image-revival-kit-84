@@ -12,5 +12,6 @@ export const appRoutes = [
   { path: "/leagues", component: "LeagueManagement" },
   { path: "/league-management", component: "LeagueManagement" },
   { path: "/settings", component: "Settings" },
+  { path: "/teams", component: "Teams" },
   { path: "*", component: "NotFound" }
 ];

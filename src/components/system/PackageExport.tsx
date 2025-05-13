@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +29,7 @@ const PackageExport: React.FC<PackageExportProps> = ({
   const [packageVersion, setPackageVersion] = useState("1.0.0");
   const [exportFormat, setExportFormat] = useState("module");
   const [installMethod, setInstallMethod] = useState("npm");
+  const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   
   // Generate install command based on the selected method
   const getInstallCommand = () => {

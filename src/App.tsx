@@ -13,6 +13,7 @@ import Statistics from "./pages/Statistics";
 import Matches from "./pages/Matches";
 import Analysis from "./pages/Analysis";
 import Settings from "./pages/Settings";
+import Teams from "./pages/Teams";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/league-management" element={<LeagueManagement />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/teams" element={<Teams />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

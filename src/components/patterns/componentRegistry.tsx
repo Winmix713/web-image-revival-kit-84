@@ -1,426 +1,332 @@
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Progress } from "@/components/ui/progress"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
+import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Textarea } from "@/components/ui/textarea"
+import { Toaster } from "@/components/ui/toaster"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import PatternCard from "./PatternCard";
-import { Check, Info, AlertCircle } from "lucide-react";
-
-// Component registry with metadata and code examples
 export const componentRegistry = [
   {
-    id: "buttons",
-    category: "basic",
-    title: "Buttons",
-    description: "Interactive button components in various styles",
-    color: "#00F5FF",
-    icon: <Check size={24} />,
+    name: "Badge",
+    source: "ui/badge.tsx",
     component: (
-      <div className="flex flex-wrap gap-4">
-        <Button>Default Button</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button className="btn-cyan-glow">Cyan Glow</Button>
-        <Button className="btn-purple-glow">Purple Glow</Button>
-      </div>
+      <Badge>
+        Label
+      </Badge>
     ),
-    reactCode: `import { Button } from "@/components/ui/button";
-
-// Default button
-<Button>Default Button</Button>
-
-// Secondary button
-<Button variant="secondary">Secondary</Button>
-
-// Outline button
-<Button variant="outline">Outline</Button>
-
-// Ghost button
-<Button variant="ghost">Ghost</Button>
-
-// Custom styles with built-in utility classes
-<Button className="btn-cyan-glow">Cyan Glow</Button>
-<Button className="btn-purple-glow">Purple Glow</Button>`,
-    cssCode: `.btn-cyan-glow {
-  @apply bg-gradient-to-r from-[#00F5FF] to-[#00D1DD] 
-  hover:from-[#20F5FF] hover:to-[#20D1DD] 
-  text-[#0F1122] shadow-md 
-  hover:shadow-[0_0_15px_rgba(0,245,255,0.5)] transition-all;
-}
-
-.btn-purple-glow {
-  @apply bg-gradient-to-r from-[#B026FF] to-[#8026DD] 
-  hover:from-[#C036FF] hover:to-[#9036DD] 
-  text-white shadow-md 
-  hover:shadow-[0_0_15px_rgba(176,38,255,0.5)] transition-all;
-}`
   },
   {
-    id: "cards",
-    category: "layout",
-    title: "Cards",
-    description: "Containers for organizing content with various styling options",
-    color: "#B026FF",
-    icon: <Info size={24} />,
-    component: (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Default Card</CardTitle>
-            <CardDescription>Basic card component with header and content sections</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Main card content goes here.</p>
-          </CardContent>
-          <CardFooter>
-            <Button size="sm">Action</Button>
-          </CardFooter>
-        </Card>
-        
-        <Card className="enhanced-glass">
-          <CardHeader>
-            <CardTitle>Enhanced Glass Card</CardTitle>
-            <CardDescription>Glassmorphism styling with hover effects</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card with glassmorphism effects.</p>
-          </CardContent>
-          <CardFooter>
-            <Button size="sm" className="btn-cyan-glow">Action</Button>
-          </CardFooter>
-        </Card>
-      </div>
-    ),
-    reactCode: `import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
-// Default Card
-<Card>
-  <CardHeader>
-    <CardTitle>Default Card</CardTitle>
-    <CardDescription>Basic card component with header and content sections</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p>Main card content goes here.</p>
-  </CardContent>
-  <CardFooter>
-    <Button size="sm">Action</Button>
-  </CardFooter>
-</Card>
-
-// Enhanced Glass Card
-<Card className="enhanced-glass">
-  <CardHeader>
-    <CardTitle>Enhanced Glass Card</CardTitle>
-    <CardDescription>Glassmorphism styling with hover effects</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p>Card with glassmorphism effects.</p>
-  </CardContent>
-  <CardFooter>
-    <Button size="sm" className="btn-cyan-glow">Action</Button>
-  </CardFooter>
-</Card>`,
-    cssCode: `.enhanced-glass {
-  @apply backdrop-blur-2xl bg-white/5 border border-white/10 
-  shadow-lg shadow-black/10 hover:shadow-xl 
-  hover:shadow-[#3a36e0]/15 hover:border-[#3a36e0]/20 
-  transition-all duration-300;
-}
-
-.enhanced-glass-card {
-  @apply backdrop-blur-2xl bg-gradient-to-br from-white/10 to-white/5 
-  border border-white/20 shadow-lg shadow-black/20 
-  hover:shadow-xl hover:shadow-[#3a36e0]/15 transition-all duration-300;
-}`
+    name: "Button",
+    source: "ui/button.tsx",
+    component: <Button>Button</Button>,
   },
   {
-    id: "badges",
-    category: "basic",
-    title: "Badges",
-    description: "Small status indicators and labels for UI elements",
-    color: "#FAFF00",
-    icon: <AlertCircle size={24} />,
+    name: "Calendar",
+    source: "ui/calendar.tsx",
     component: (
-      <div className="flex flex-wrap gap-4">
-        <Badge>Default</Badge>
-        <Badge variant="secondary">Secondary</Badge>
-        <Badge variant="outline">Outline</Badge>
-        <Badge variant="destructive">Destructive</Badge>
-        <span className="new-badge">New</span>
-        <span className="status-active">Active</span>
-        <span className="status-pending">Pending</span>
-        <span className="status-inactive">Inactive</span>
-      </div>
+      <Calendar
+        mode="single"
+        selected={new Date()}
+        onSelect={() => {}}
+      />
     ),
-    reactCode: `import { Badge } from "@/components/ui/badge";
-
-// Default badge
-<Badge>Default</Badge>
-
-// Secondary badge
-<Badge variant="secondary">Secondary</Badge>
-
-// Outline badge
-<Badge variant="outline">Outline</Badge>
-
-// Destructive badge
-<Badge variant="destructive">Destructive</Badge>
-
-// Custom badge styles
-<span className="new-badge">New</span>
-<span className="status-active">Active</span>
-<span className="status-pending">Pending</span>
-<span className="status-inactive">Inactive</span>`,
-    cssCode: `.new-badge {
-  @apply bg-[#ff4a4a] text-xs text-white px-1.5 py-0.5 
-  rounded-sm uppercase font-medium;
-}
-
-.status-active {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs 
-  font-medium bg-green-500/20 text-green-400 border border-green-500/30;
-}
-
-.status-pending {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs 
-  font-medium bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
-}
-
-.status-inactive {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs 
-  font-medium bg-red-500/20 text-red-400 border border-red-500/30;
-}`
   },
   {
-    id: "progress",
-    category: "feedback",
-    title: "Progress",
-    description: "Visual indicators for loading states and process completion",
-    color: "#00F5FF",
-    icon: <Check size={24} />,
+    name: "Card",
+    source: "ui/card.tsx",
     component: (
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <p className="text-sm">Default Progress (70%)</p>
-          <Progress value={70} />
+      <Card>
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>Card Content</CardContent>
+        <CardFooter>Card Footer</CardFooter>
+      </Card>
+    ),
+  },
+  {
+    name: "Checkbox",
+    source: "ui/checkbox.tsx",
+    component: <Checkbox />,
+  },
+  {
+    name: "Command",
+    source: "ui/command.tsx",
+    component: (
+      <CommandDialog open={true} onOpenChange={() => {}}>
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem>
+              <span>Calendar</span>
+              <CommandShortcut>⌘K</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <span>Search</span>
+              <CommandShortcut>⌘/</CommandShortcut>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    ),
+  },
+  {
+    name: "Dialog",
+    source: "ui/dialog.tsx",
+    component: (
+      <Dialog open={true} onOpenChange={() => {}}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Dialog Title</DialogTitle>
+            <DialogDescription>Dialog Description</DialogDescription>
+          </DialogHeader>
+          <div>Dialog Content</div>
+          <DialogFooter>
+            <Button>Cancel</Button>
+            <Button>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    ),
+  },
+  {
+    name: "Dropdown Menu",
+    source: "ui/dropdown-menu.tsx",
+    component: (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">Open</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  },
+  {
+    name: "Input",
+    source: "ui/input.tsx",
+    component: <Input placeholder="Input" />,
+  },
+  {
+    name: "Label",
+    source: "ui/label.tsx",
+    component: <Label>Label</Label>,
+  },
+  {
+    name: "Popover",
+    source: "ui/popover.tsx",
+    component: (
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline">Open</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          Popover Content
+        </PopoverContent>
+      </Popover>
+    ),
+  },
+  {
+    name: "Progress",
+    source: "ui/progress.tsx",
+    component: <Progress value={75} className="w-full" />,
+  },
+  {
+    name: "Radio Group",
+    source: "ui/radio-group.tsx",
+    component: (
+      <RadioGroup>
+        <RadioGroupItem value="item-1" id="item-1" />
+        <Label htmlFor="item-1">Item 1</Label>
+        <RadioGroupItem value="item-2" id="item-2" />
+        <Label htmlFor="item-2">Item 2</Label>
+      </RadioGroup>
+    ),
+  },
+  {
+    name: "Scroll Area",
+    source: "ui/scroll-area.tsx",
+    component: (
+      <ScrollArea className="h-40 w-72 rounded-md border">
+        <div className="p-4">
+          <h4 className="mb-4 text-sm font-medium leading-none">
+            Items
+          </h4>
+          <Separator />
+          {Array.from({ length: 20 }, (_, i) => (
+            <div key={i} className="mt-2 last:mb-0">
+              Item {i + 1}
+            </div>
+          ))}
         </div>
-        
-        <div className="space-y-2">
-          <p className="text-sm">Custom Styled Progress (40%)</p>
-          <Progress 
-            value={40} 
-            className="h-2 bg-[#0F1122]/50" 
-            indicatorClassName="bg-gradient-to-r from-[#00F5FF] to-[#B026FF]" 
-          />
-        </div>
-      </div>
+      </ScrollArea>
     ),
-    reactCode: `import { Progress } from "@/components/ui/progress";
-import { useState, useEffect } from "react";
-
-// Static progress
-<Progress value={70} />
-
-// Custom styled progress
-<Progress 
-  value={40} 
-  className="h-2 bg-[#0F1122]/50" 
-  indicatorClassName="bg-gradient-to-r from-[#00F5FF] to-[#B026FF]" 
-/>
-
-// Animated progress example
-function AnimatedProgress() {
-  const [progress, setProgress] = useState(0);
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setProgress(100);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
-  
-  return <Progress value={progress} />;
-}`,
-    cssCode: `/* Custom Progress Styles */
-.progress-badge {
-  @apply text-xs inline-flex items-center px-2.5 py-1 
-  rounded-full bg-[#3a36e0]/20 text-[#9b87f5] gap-1.5 
-  border border-[#9b87f5]/20;
-}
-
-/* Gradient Progress Bar */
-.progress-gradient .indicator {
-  @apply bg-gradient-to-r from-[#00F5FF] to-[#B026FF];
-}`
   },
   {
-    id: "avatars",
-    category: "data-display",
-    title: "Avatars",
-    description: "User profile images with fallback options",
-    color: "#B026FF",
-    icon: <Info size={24} />,
+    name: "Select",
+    source: "ui/select.tsx",
     component: (
-      <div className="flex flex-wrap gap-4">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        
-        <Avatar className="h-14 w-14 ring-2 ring-[#00F5FF] ring-offset-2 ring-offset-[#0F1122]">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        
-        <Avatar className="h-10 w-10 border-2 border-[#B026FF] shadow-[0_0_10px_rgba(176,38,255,0.5)]">
-          <AvatarFallback className="bg-gradient-to-r from-[#B026FF] to-[#00F5FF] text-white">JD</AvatarFallback>
-        </Avatar>
-      </div>
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Select" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="item-1">Item 1</SelectItem>
+          <SelectItem value="item-2">Item 2</SelectItem>
+        </SelectContent>
+      </Select>
     ),
-    reactCode: `import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-
-// Default avatar
-<Avatar>
-  <AvatarImage src="https://github.com/shadcn.png" />
-  <AvatarFallback>CN</AvatarFallback>
-</Avatar>
-
-// Custom styled avatar with ring
-<Avatar className="h-14 w-14 ring-2 ring-[#00F5FF] ring-offset-2 ring-offset-[#0F1122]">
-  <AvatarImage src="https://github.com/shadcn.png" />
-  <AvatarFallback>CN</AvatarFallback>
-</Avatar>
-
-// Avatar with gradient fallback
-<Avatar className="h-10 w-10 border-2 border-[#B026FF] shadow-[0_0_10px_rgba(176,38,255,0.5)]">
-  <AvatarFallback className="bg-gradient-to-r from-[#B026FF] to-[#00F5FF] text-white">JD</AvatarFallback>
-</Avatar>`,
-    cssCode: `/* Custom Avatar Styles */
-.avatar-glow {
-  @apply border-2 border-[#00F5FF] shadow-[0_0_10px_rgba(0,245,255,0.5)];
-}
-
-.avatar-glow-purple {
-  @apply border-2 border-[#B026FF] shadow-[0_0_10px_rgba(176,38,255,0.5)];
-}
-
-.avatar-gradient-bg {
-  @apply bg-gradient-to-r from-[#B026FF] to-[#00F5FF] text-white;
-}`
   },
   {
-    id: "alerts",
-    category: "feedback",
-    title: "Alerts",
-    description: "Informational messages and notifications",
-    color: "#FAFF00",
-    icon: <AlertCircle size={24} />,
+    name: "Separator",
+    source: "ui/separator.tsx",
+    component: <Separator />,
+  },
+  {
+    name: "Slider",
+    source: "ui/slider.tsx",
+    component: <Slider defaultValue={[50]} max={100} step={1} />,
+  },
+  {
+    name: "Switch",
+    source: "ui/switch.tsx",
+    component: <Switch />,
+  },
+  {
+    name: "Table",
+    source: "ui/table.tsx",
     component: (
-      <div className="space-y-4">
-        <Alert>
-          <AlertTitle>Default Alert</AlertTitle>
-          <AlertDescription>
-            A simple alert component for informational messages.
-          </AlertDescription>
-        </Alert>
-        
-        <Alert variant="destructive">
-          <AlertTitle>Error Alert</AlertTitle>
-          <AlertDescription>
-            Used to display error messages and warnings.
-          </AlertDescription>
-        </Alert>
-        
-        <Alert className="border-l-4 border-l-[#00F5FF] bg-[#00F5FF]/10">
-          <AlertTitle className="text-[#00F5FF]">Custom Info Alert</AlertTitle>
-          <AlertDescription>
-            Custom styled alert with left border accent.
-          </AlertDescription>
-        </Alert>
+      <div className="w-full">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Age</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">John Doe</TableCell>
+              <TableCell>john.doe@example.com</TableCell>
+              <TableCell>24</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
     ),
-    reactCode: `import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { Info } from "lucide-react";
-
-// Default alert
-<Alert>
-  <AlertTitle>Default Alert</AlertTitle>
-  <AlertDescription>
-    A simple alert component for informational messages.
-  </AlertDescription>
-</Alert>
-
-// Destructive alert for errors
-<Alert variant="destructive">
-  <AlertTitle>Error Alert</AlertTitle>
-  <AlertDescription>
-    Used to display error messages and warnings.
-  </AlertDescription>
-</Alert>
-
-// Custom styled alert
-<Alert className="border-l-4 border-l-[#00F5FF] bg-[#00F5FF]/10">
-  <AlertTitle className="text-[#00F5FF]">Custom Info Alert</AlertTitle>
-  <AlertDescription>
-    Custom styled alert with left border accent.
-  </AlertDescription>
-</Alert>
-
-// Alert with icon
-<Alert>
-  <Info className="h-4 w-4" />
-  <AlertTitle>Information</AlertTitle>
-  <AlertDescription>
-    Alert with an icon for better visual hierarchy.
-  </AlertDescription>
-</Alert>`,
-    cssCode: `/* Custom Alert Styles */
-.alert-info {
-  @apply border-l-4 border-l-[#00F5FF] bg-[#00F5FF]/10;
-}
-
-.alert-info .alert-title {
-  @apply text-[#00F5FF];
-}
-
-.alert-warning {
-  @apply border-l-4 border-l-[#FAFF00] bg-[#FAFF00]/10;
-}
-
-.alert-warning .alert-title {
-  @apply text-[#FAFF00];
-}
-
-.alert-danger {
-  @apply border-l-4 border-l-[#ff4a4a] bg-[#ff4a4a]/10;
-}
-
-.alert-danger .alert-title {
-  @apply text-[#ff4a4a];
-}`
-  }
-];
-
-// Categories for organizing components
-export const componentCategories = [
-  { id: "all", name: "All Components" },
-  { id: "basic", name: "Basic Elements" },
-  { id: "layout", name: "Layout Components" },
-  { id: "data-display", name: "Data Display" },
-  { id: "feedback", name: "Feedback Components" }
-];
-
-export const getFilteredComponents = (filter: string) => {
-  if (filter === "all") {
-    return componentRegistry;
-  } else {
-    return componentRegistry.filter(component => component.category === filter);
-  }
-};
+  },
+  {
+    name: "Textarea",
+    source: "ui/textarea.tsx",
+    component: <Textarea placeholder="Type your message here." />,
+  },
+  {
+    name: "Tooltip",
+    source: "ui/tooltip.tsx",
+    component: (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button>Hover</Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Tooltip Content
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ),
+  },
+  {
+    name: "Toaster",
+    source: "ui/toaster.tsx",
+    component: <Toaster />,
+  },
+]

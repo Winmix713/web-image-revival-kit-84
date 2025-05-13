@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Settings as SettingsIcon, User, Bell, Lock, Globe, Brush, Database, HelpCircle, Info } from 'lucide-react';
 import AppLayout from "@/components/common/AppLayout";
@@ -10,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
+import { Plus } from 'lucide-react';
 
 const Settings = () => {
   const handleSave = () => {

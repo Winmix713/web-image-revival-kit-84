@@ -1,8 +1,7 @@
-
 import React from "react";
 import { 
   Layout, 
-  type, 
+  Type, 
   Palette, 
   FileCode, 
   LayoutGrid, 
@@ -47,7 +46,7 @@ export const COMPONENT_LIBRARY: ComponentCategory[] = [
   },
   {
     name: "Typography",
-    icon: type,
+    icon: Type,
     components: [
       { name: "Heading", description: "Various heading styles" },
       { name: "Paragraph", description: "Text paragraph with styles" },
