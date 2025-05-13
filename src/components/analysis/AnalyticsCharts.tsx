@@ -5,6 +5,10 @@ import TeamPerformanceChart from './TeamPerformanceChart';
 import GoalAnalysisChart from './GoalAnalysisChart';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
+interface ChartProps {
+  chartType: string;
+}
+
 const AnalyticsCharts = () => {
   const { chartType } = useAnalytics();
   

@@ -10,7 +10,8 @@ import {
   LayoutDashboard, 
   Clock,
   Database,
-  TrendingUp
+  TrendingUp,
+  Users
 } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -28,10 +29,22 @@ export const SidebarNav: React.FC = () => {
   
   const navItems: NavItem[] = [
     {
+      icon: LayoutDashboard,
+      title: "Dashboard",
+      description: "System overview",
+      href: "/",
+    },
+    {
       icon: Trophy,
       title: "Leagues",
       description: "Manage your leagues",
       href: "/leagues",
+    },
+    {
+      icon: Users,
+      title: "Teams",
+      description: "Manage teams",
+      href: "/teams",
     },
     {
       icon: Calendar,
@@ -55,15 +68,15 @@ export const SidebarNav: React.FC = () => {
     {
       icon: Database,
       title: "Integrations",
-      description: "External data sources",
+      description: "External services & data",
       href: "/integrations",
+      isNew: true
     },
     {
       icon: TrendingUp,
       title: "Predictions",
       description: "Match predictions",
       href: "/predictions",
-      isNew: true
     },
     {
       icon: Settings,

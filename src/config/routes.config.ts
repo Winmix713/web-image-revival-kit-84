@@ -8,7 +8,8 @@ import {
   LineChart, 
   BarChart2,
   Trophy,
-  FileQuestion
+  FileQuestion,
+  Database
 } from 'lucide-react';
 import type { RouteConfig } from '@/types/routes';
 
@@ -63,6 +64,15 @@ export const routesConfig: RouteConfig[] = [
     name: "League Management",
     component: "LeagueManagement",
     icon: Trophy,
+    showInNav: true,
+    showInSidebar: true,
+    isNew: true
+  },
+  { 
+    path: "/integrations", 
+    name: "Integrations",
+    component: "Integrations",
+    icon: Database,
     showInNav: true,
     showInSidebar: true,
     isNew: true

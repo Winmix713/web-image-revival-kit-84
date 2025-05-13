@@ -1,63 +1,106 @@
 
-import { useState, useEffect, useCallback } from 'react';
-import { Team } from '../data/premier-league-teams';
+import { useState, useEffect, useMemo } from 'react';
+import { Team } from '@/types/team';
+
+interface FilterOptions {
+  searchTerm: string;
+  league: string;
+  country: string;
+  sort: 'name' | 'rank' | 'founded' | 'winRate';
+}
+
+const defaultOptions: FilterOptions = {
+  searchTerm: '',
+  league: '',
+  country: '',
+  sort: 'name'
+};
 
 export const useTeamFilters = (teams: Team[]) => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortBy, setSortBy] = useState<string>('name');
-  const [filterType, setFilterType] = useState<string | null>(null);
+  const [filters, setFilters] = useState<FilterOptions>(defaultOptions);
   
-  const handleSearchChange = (query: string) => {
-    setSearchQuery(query);
-  };
-  
-  const handleSortChange = (sortType: string) => {
-    setSortBy(sortType);
-  };
-  
-  const handleFilterChange = (filter: string | null) => {
-    setFilterType(filter);
-  };
-  
-  const filteredTeams = useCallback(() => {
-    return teams.filter((team) => {
-      const matchesSearch = team.name.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      if (!filterType) return matchesSearch;
-      
-      switch (filterType) {
-        case 'trophies':
-          return matchesSearch && team.stats?.trophies > 0;
-        case 'international':
-          // Example filter for international teams
-          return matchesSearch && team.country !== 'England';
-        case 'favorites':
-          // This would be implemented with the actual favorites logic
-          return matchesSearch;
-        default:
-          return matchesSearch;
+  // Extract unique values for filter dropdowns
+  const leagues = useMemo(() => {
+    const uniqueLeagues = new Set<string>();
+    teams.forEach(team => {
+      if (team.league) {
+        uniqueLeagues.add(team.league);
       }
+    });
+    return Array.from(uniqueLeagues).sort();
+  }, [teams]);
+  
+  const countries = useMemo(() => {
+    const uniqueCountries = new Set<string>();
+    teams.forEach(team => {
+      if (team.country) {
+        uniqueCountries.add(team.country);
+      }
+    });
+    return Array.from(uniqueCountries).sort();
+  }, [teams]);
+  
+  // Apply filters and sorting
+  const filteredTeams = useMemo(() => {
+    return teams.filter(team => {
+      // Apply text search
+      if (filters.searchTerm && !team.name.toLowerCase().includes(filters.searchTerm.toLowerCase())) {
+        return false;
+      }
+      
+      // Apply league filter
+      if (filters.league && team.league !== filters.league) {
+        return false;
+      }
+      
+      // Apply country filter
+      if (filters.country && team.country !== filters.country) {
+        return false;
+      }
+      
+      return true;
     }).sort((a, b) => {
-      switch (sortBy) {
+      // Apply sorting
+      switch (filters.sort) {
         case 'name':
           return a.name.localeCompare(b.name);
         case 'founded':
-          return (a.founded || 0) - (b.founded || 0);
-        case 'trophies':
-          return (b.stats?.trophies || 0) - (a.stats?.trophies || 0);
+          const aFounded = a.founded || 0;
+          const bFounded = b.founded || 0;
+          return aFounded - bFounded;
+        case 'rank':
+          const aRank = a.stats?.rank || 0;
+          const bRank = b.stats?.rank || 0;
+          return aRank - bRank;
+        case 'winRate':
+          const aWinRate = a.stats?.winRate || 0;
+          const bWinRate = b.stats?.winRate || 0;
+          return bWinRate - aWinRate;
         default:
           return 0;
       }
     });
-  }, [teams, searchQuery, filterType, sortBy]);
+  }, [teams, filters]);
+  
+  // Reset filters
+  const resetFilters = () => setFilters(defaultOptions);
+  
+  // Update individual filters
+  const updateFilter = (key: keyof FilterOptions, value: string) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: value
+    }));
+  };
   
   return {
-    searchQuery,
-    filteredTeams: filteredTeams(),
-    handleSearchChange,
-    handleSortChange,
-    handleFilterChange,
-    filterType,
-    sortBy
+    filters,
+    filteredTeams,
+    leagues,
+    countries,
+    updateFilter,
+    resetFilters
   };
 };
+
+export default useTeamFilters;

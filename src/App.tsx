@@ -17,6 +17,10 @@ import Analysis from "./pages/Analysis";
 import Settings from "./pages/Settings";
 import Teams from "./pages/Teams";
 import System from "./pages/System";
+import Integrations from "./pages/Integrations";
+
+// Provide context
+import { IntegrationsProvider } from "./contexts/IntegrationsContext";
 
 const queryClient = new QueryClient();
 
@@ -31,7 +35,8 @@ const components = {
   Analysis,
   Settings,
   Teams,
-  System
+  System,
+  Integrations
 };
 
 const App = () => {
@@ -39,19 +44,21 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {routes.map((route) => {
-              // @ts-ignore - Dynamic component mapping
-              const Component = components[route.component];
-              return <Route key={route.path} path={route.path} element={<Component />} />;
-            })}
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <IntegrationsProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {routes.map((route) => {
+                // @ts-ignore - Dynamic component mapping
+                const Component = components[route.component];
+                return <Route key={route.path} path={route.path} element={<Component />} />;
+              })}
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </IntegrationsProvider>
     </QueryClientProvider>
   );
 };
