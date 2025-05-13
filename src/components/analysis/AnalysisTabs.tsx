@@ -1,16 +1,18 @@
-
 import React from 'react';
 import { LineChart } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ContentCard from "@/components/common/ContentCard";
 import { Button } from "@/components/ui/button";
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface AnalysisTabsProps {
   timeFrame: string;
 }
 
-const AnalysisTabs: React.FC<AnalysisTabsProps> = ({ timeFrame }) => {
+const AnalysisTabs: React.FC = () => {
+  const { timeFrame } = useAnalytics();
+  
   return (
     <Tabs defaultValue="overview" className="mb-8">
       <TabsList className="bg-white/5 border border-white/10">
