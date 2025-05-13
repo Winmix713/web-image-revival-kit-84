@@ -7,7 +7,6 @@ export const appRoutes = [
   { path: "/", component: "Dashboard" },
   { path: "/matches", component: "Matches" },
   { path: "/analysis", component: "Analysis" },
-  { path: "/patterns", component: "Patterns" },
   { path: "/statistics", component: "Statistics" },
   { path: "/leagues", component: "LeagueManagement" },
   { path: "/league-management", component: "LeagueManagement" },

@@ -8,7 +8,6 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import LeagueManagement from "./pages/LeagueManagement";
-import PatternsPage from "./pages/Patterns";
 import Statistics from "./pages/Statistics";
 import Matches from "./pages/Matches";
 import Analysis from "./pages/Analysis";
@@ -28,7 +27,6 @@ const App = () => (
           <Route path="/leagues" element={<LeagueManagement />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/analysis" element={<Analysis />} />
-          <Route path="/patterns" element={<PatternsPage />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/league-management" element={<LeagueManagement />} />
           <Route path="/settings" element={<Settings />} />
