@@ -4,6 +4,7 @@ import { Trophy } from 'lucide-react';
 import { Team } from '../../data/premier-league-teams';
 import TeamList from './TeamList';
 import SelectedTeamsDisplay from './SelectedTeamsDisplay';
+import { createGrid } from '@/lib/grid-utils';
 
 interface TeamListSectionProps { 
   teams: Team[];
@@ -25,8 +26,8 @@ const TeamListSection: React.FC<TeamListSectionProps> = ({
   setTeamsToCompare
 }) => {
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-amber-400" />
           <h2 className="text-xl font-bold text-white">Premier League csapatok</h2>

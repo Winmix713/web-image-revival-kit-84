@@ -17,7 +17,8 @@ const TeamCompareButton: React.FC<TeamCompareButtonProps> = ({
 }) => {
   return (
     <Button 
-      className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 h-10"
+      variant="default"
+      className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
       onClick={() => {
         if (teamsToCompare.length === 2) {
           setShowComparison(true);

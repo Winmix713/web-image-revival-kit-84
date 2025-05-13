@@ -16,7 +16,9 @@ const TimeFrameSelector: React.FC<TimeFrameSelectorProps> = ({
       <Button 
         variant={timeFrame === 'week' ? 'default' : 'outline'} 
         size="sm"
-        className={timeFrame === 'week' ? 'bg-[#3a36e0]' : 'bg-white/5 border-white/10'} 
+        className={timeFrame === 'week' 
+          ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white' 
+          : 'bg-white/5 border-white/10 text-white hover:bg-white/10'} 
         onClick={() => setTimeFrame('week')}
       >
         Week
@@ -24,7 +26,9 @@ const TimeFrameSelector: React.FC<TimeFrameSelectorProps> = ({
       <Button 
         variant={timeFrame === 'month' ? 'default' : 'outline'} 
         size="sm"
-        className={timeFrame === 'month' ? 'bg-[#3a36e0]' : 'bg-white/5 border-white/10'} 
+        className={timeFrame === 'month' 
+          ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white' 
+          : 'bg-white/5 border-white/10 text-white hover:bg-white/10'} 
         onClick={() => setTimeFrame('month')}
       >
         Month
@@ -32,7 +36,9 @@ const TimeFrameSelector: React.FC<TimeFrameSelectorProps> = ({
       <Button 
         variant={timeFrame === 'year' ? 'default' : 'outline'} 
         size="sm"
-        className={timeFrame === 'year' ? 'bg-[#3a36e0]' : 'bg-white/5 border-white/10'} 
+        className={timeFrame === 'year' 
+          ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white' 
+          : 'bg-white/5 border-white/10 text-white hover:bg-white/10'} 
         onClick={() => setTimeFrame('year')}
       >
         Year

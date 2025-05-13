@@ -9,6 +9,25 @@ interface TeamCardProps {
 }
 
 const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
+  // Statisztikai elemek egyszerűbb kezeléséhez
+  const statItems = [
+    { 
+      icon: <Users className="h-4 w-4 text-blue-400 mb-1" />, 
+      label: "Játékosok", 
+      value: "26" 
+    },
+    { 
+      icon: <Trophy className="h-4 w-4 text-amber-400 mb-1" />, 
+      label: "Trófeák", 
+      value: "12" 
+    },
+    { 
+      icon: <BarChart className="h-4 w-4 text-emerald-400 mb-1" />, 
+      label: "Rang", 
+      value: "#4" 
+    }
+  ];
+
   return (
     <div 
       className="bg-gradient-to-br from-gray-900/60 to-gray-900/40 backdrop-blur-md border border-white/5 rounded-xl p-5 hover:border-blue-500/20 transition-all duration-300 group cursor-pointer"
@@ -24,10 +43,10 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
             />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-white">{team.name}</h3>
+            <h3 className="text-xl font-bold text-white truncate">{team.name}</h3>
             <div className="flex items-center gap-1 mt-1">
               <Shield className="h-3.5 w-3.5 text-blue-400" />
-              <span className="text-xs text-blue-400 font-medium">Premier League</span>
+              <span className="text-xs text-blue-400 font-medium">{team.league}</span>
             </div>
           </div>
         </div>
@@ -37,21 +56,13 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
       </div>
 
       <div className="grid grid-cols-3 gap-2 mt-4">
-        <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2.5">
-          <Users className="h-4 w-4 text-blue-400 mb-1" />
-          <p className="text-xs text-gray-400">Játékosok</p>
-          <p className="text-lg font-semibold text-white">26</p>
-        </div>
-        <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2.5">
-          <Trophy className="h-4 w-4 text-amber-400 mb-1" />
-          <p className="text-xs text-gray-400">Trófeák</p>
-          <p className="text-lg font-semibold text-white">12</p>
-        </div>
-        <div className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2.5">
-          <BarChart className="h-4 w-4 text-emerald-400 mb-1" />
-          <p className="text-xs text-gray-400">Rang</p>
-          <p className="text-lg font-semibold text-white">#4</p>
-        </div>
+        {statItems.map((item, index) => (
+          <div key={index} className="flex flex-col items-center bg-white/5 rounded-lg px-3 py-2.5">
+            {item.icon}
+            <p className="text-xs text-gray-400">{item.label}</p>
+            <p className="text-lg font-semibold text-white">{item.value}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
