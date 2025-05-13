@@ -6,6 +6,7 @@ import TeamGrid from '../components/teams/TeamGrid';
 import TeamDetail from '../components/teams/TeamDetail';
 import TeamStatsCard from '../components/teams/TeamStatsCard';
 import TeamComparison from '../components/teams/TeamComparison';
+import TeamCard from '../components/teams/TeamCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { 
