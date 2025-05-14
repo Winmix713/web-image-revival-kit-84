@@ -1,115 +1,86 @@
 
-import React, { useState, useEffect } from 'react';
-import { Shield, Trophy, Globe, CalendarDays, Star } from 'lucide-react';
-import { PREMIER_LEAGUE_TEAMS } from '../data/premier-league-teams';
-import TeamDetail from '../components/teams/TeamDetail';
-import TeamStatsCard from '../components/teams/TeamStatsCard';
-import TeamComparison from '../components/teams/TeamComparison';
-import TeamFilterBar from '../components/teams/TeamFilterBar';
-import TeamCompareButton from '../components/teams/TeamCompareButton';
-import TeamListSection from '../components/teams/TeamListSection';
-import AppLayout from '@/components/common/AppLayout';
-import PageHeader from '@/components/common/PageHeader';
-import { TeamSelectionProvider, useTeamSelection } from '../contexts/TeamSelectionContext';
-import { useTeamFilters } from '../hooks/useTeamFilters';
-
-// Filter button configuration
-const filterButtons = [
-  { icon: <Trophy className="h-4 w-4" />, label: "Trófeák" },
-  { icon: <Globe className="h-4 w-4" />, label: "Származás" },
-  { icon: <CalendarDays className="h-4 w-4" />, label: "Alapítás éve" },
-  { icon: <Star className="h-4 w-4" />, label: "Kedvencek" },
-];
-
-const TeamsContent = () => {
-  const [filterOpen, setFilterOpen] = useState(false);
-  
-  const { 
-    selectedTeam, 
-    teamsToCompare, 
-    showComparison, 
-    setShowComparison,
-    favoriteTeams,
-    handleTeamClick,
-    handleCloseDetail,
-    handleCompareTeam,
-    handleCloseComparison,
-    setTeamsToCompare
-  } = useTeamSelection();
-  
-  const {
-    searchQuery,
-    filteredTeams,
-    handleSearchChange
-  } = useTeamFilters(PREMIER_LEAGUE_TEAMS);
-  
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    <AppLayout backgroundVariant="subtle" headerTitle="Csapatok">
-      <PageHeader 
-        title="Csapatok"
-        description="Válaszd ki kedvenc csapataidat és fedezd fel statisztikáikat, játékosaikat és teljesítményüket."
-        icon={Shield}
-        variant="gradient"
-        actions={
-          <div className="flex items-center gap-3">
-            <TeamFilterBar 
-              searchQuery={searchQuery}
-              setSearchQuery={handleSearchChange}
-              filterOpen={filterOpen}
-              setFilterOpen={setFilterOpen}
-              filterButtons={filterButtons}
-            />
-            <TeamCompareButton 
-              teamsToCompare={teamsToCompare} 
-              showComparison={showComparison}
-              setShowComparison={setShowComparison} 
-            />
-          </div>
-        }
-      />
-      
-      <div className="space-y-8">
-        <TeamStatsCard />
-        
-        <TeamListSection 
-          teams={filteredTeams}
-          teamsToCompare={teamsToCompare}
-          favoriteTeams={favoriteTeams}
-          handleTeamClick={handleTeamClick}
-          handleCompareTeam={handleCompareTeam}
-          toggleFavorite={(teamId) => useTeamSelection().toggleFavorite(teamId)}
-          setTeamsToCompare={setTeamsToCompare}
-        />
-      </div>
-      
-      {/* Modals */}
-      {selectedTeam && (
-        <TeamDetail 
-          team={selectedTeam} 
-          onClose={handleCloseDetail} 
-          onCompare={handleCompareTeam} 
-        />
-      )}
-      
-      {showComparison && teamsToCompare.length === 2 && (
-        <TeamComparison 
-          teams={teamsToCompare} 
-          onClose={handleCloseComparison} 
-        />
-      )}
-    </AppLayout>
-  );
-};
+import { useState } from "react";
+import { Filter, Search } from "lucide-react";
+import AppLayout from "@/components/common/AppLayout";
+import PageHeader from "@/components/common/PageHeader";
+import TeamGrid from "@/components/teams/TeamGrid";
+import TeamFilterBar from "@/components/teams/TeamFilterBar";
+import SelectedTeamsDisplay from "@/components/teams/SelectedTeamsDisplay";
+import { Button } from "@/components/ui/button";
+import { useTeamSelection } from "@/hooks/useTeamSelection";
+import useTeamFilters from "@/hooks/useTeamFilters";
+import { teams } from "@/data/teams";
 
 const Teams = () => {
+  const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { selectedTeams, toggleTeam, clearSelection, isSelected } = useTeamSelection();
+  const teamFilters = useTeamFilters(teams);
+  
+  // Add the missing functions for search
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredBySearch = teamFilters.filteredTeams.filter(
+    team => team.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <TeamSelectionProvider>
-      <TeamsContent />
-    </TeamSelectionProvider>
+    <AppLayout backgroundVariant="vibrant">
+      <PageHeader
+        title="Teams"
+        description="Browse and select teams to view performance data"
+        icon={Search}
+      />
+
+      <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
+        <div className="relative w-full lg:w-96">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search teams..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="w-full bg-white/5 text-white border border-white/10 rounded-lg pl-10 pr-4 py-3
+              focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent
+              transition-all duration-200 placeholder:text-gray-500"
+          />
+        </div>
+
+        <Button
+          onClick={() => setShowFilters(!showFilters)}
+          variant="outline"
+          className="bg-white/5 border-white/10 text-white hover:bg-white/10 flex gap-2"
+        >
+          <Filter className="h-4 w-4" />
+          {showFilters ? "Hide Filters" : "Show Filters"}
+        </Button>
+      </div>
+
+      {showFilters && (
+        <TeamFilterBar
+          filters={teamFilters.filters}
+          leagues={teamFilters.leagues}
+          countries={teamFilters.countries}
+          onFilterChange={teamFilters.updateFilter}
+          onReset={teamFilters.resetFilters}
+        />
+      )}
+
+      {selectedTeams.length > 0 && (
+        <SelectedTeamsDisplay
+          selectedTeams={selectedTeams}
+          onClearSelection={clearSelection}
+        />
+      )}
+
+      <TeamGrid
+        teams={filteredBySearch}
+        onToggleTeam={toggleTeam}
+        isSelected={isSelected}
+      />
+    </AppLayout>
   );
 };
 

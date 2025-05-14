@@ -1,23 +1,23 @@
 
-import React from 'react';
-import { createGrid } from '@/lib/grid-utils';
-import TeamPerformanceChart from './TeamPerformanceChart';
-import GoalAnalysisChart from './GoalAnalysisChart';
-import { useAnalytics } from '@/hooks/useAnalytics';
+import { useState } from 'react';
+import { TeamPerformanceChart } from './TeamPerformanceChart';
+import { GoalAnalysisChart } from './GoalAnalysisChart';
 
-interface ChartProps {
-  chartType: string;
+interface AnalyticsChartsProps {
+  chartType?: string;
 }
 
-const AnalyticsCharts = () => {
-  const { chartType } = useAnalytics();
-  
+export const AnalyticsCharts = ({ chartType = 'team-performance' }: AnalyticsChartsProps) => {
+  const [selectedChart, setSelectedChart] = useState(chartType);
+
   return (
-    <div className={createGrid("twoColumn", "mb-8")}>
-      <TeamPerformanceChart chartType={chartType} />
-      <GoalAnalysisChart chartType={chartType} />
+    <div className="space-y-8">
+      {selectedChart === 'team-performance' && (
+        <TeamPerformanceChart />
+      )}
+      {selectedChart === 'goal-analysis' && (
+        <GoalAnalysisChart />
+      )}
     </div>
   );
 };
-
-export default AnalyticsCharts;

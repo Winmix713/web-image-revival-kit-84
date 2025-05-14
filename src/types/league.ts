@@ -15,6 +15,9 @@ export interface LeagueData {
   name: string;
   season: string;
   status?: 'completed' | 'in-progress';
+  winner?: string;
+  secondPlace?: string;
+  thirdPlace?: string;
   configuration?: LeagueConfiguration;
   teams?: string[];
 }

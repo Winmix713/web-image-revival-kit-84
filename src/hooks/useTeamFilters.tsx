@@ -1,98 +1,45 @@
 
 import { useState, useEffect, useMemo } from 'react';
-import { Team } from '@/types/team';
+// Fix the import to use the correct type
+import type { Team } from '@/types';
 
-interface FilterOptions {
-  searchTerm: string;
+export interface FilterOptions {
   league: string;
   country: string;
-  sort: 'name' | 'rank' | 'founded' | 'winRate';
 }
 
-const defaultOptions: FilterOptions = {
-  searchTerm: '',
-  league: '',
-  country: '',
-  sort: 'name'
-};
-
 export const useTeamFilters = (teams: Team[]) => {
-  const [filters, setFilters] = useState<FilterOptions>(defaultOptions);
+  const [filters, setFilters] = useState<FilterOptions>({
+    league: '',
+    country: ''
+  });
+
+  // Extract unique leagues and countries from teams
+  const leagues = useMemo(() => 
+    Array.from(new Set(teams.map(team => team.league || ''))).filter(Boolean).sort(),
+  [teams]);
   
-  // Extract unique values for filter dropdowns
-  const leagues = useMemo(() => {
-    const uniqueLeagues = new Set<string>();
-    teams.forEach(team => {
-      if (team.league) {
-        uniqueLeagues.add(team.league);
-      }
-    });
-    return Array.from(uniqueLeagues).sort();
-  }, [teams]);
-  
-  const countries = useMemo(() => {
-    const uniqueCountries = new Set<string>();
-    teams.forEach(team => {
-      if (team.country) {
-        uniqueCountries.add(team.country);
-      }
-    });
-    return Array.from(uniqueCountries).sort();
-  }, [teams]);
-  
-  // Apply filters and sorting
+  const countries = useMemo(() => 
+    Array.from(new Set(teams.map(team => team.country || ''))).filter(Boolean).sort(),
+  [teams]);
+
+  // Filter teams based on selected filters
   const filteredTeams = useMemo(() => {
     return teams.filter(team => {
-      // Apply text search
-      if (filters.searchTerm && !team.name.toLowerCase().includes(filters.searchTerm.toLowerCase())) {
-        return false;
-      }
-      
-      // Apply league filter
-      if (filters.league && team.league !== filters.league) {
-        return false;
-      }
-      
-      // Apply country filter
-      if (filters.country && team.country !== filters.country) {
-        return false;
-      }
-      
-      return true;
-    }).sort((a, b) => {
-      // Apply sorting
-      switch (filters.sort) {
-        case 'name':
-          return a.name.localeCompare(b.name);
-        case 'founded':
-          const aFounded = a.founded || 0;
-          const bFounded = b.founded || 0;
-          return aFounded - bFounded;
-        case 'rank':
-          const aRank = a.stats?.rank || 0;
-          const bRank = b.stats?.rank || 0;
-          return aRank - bRank;
-        case 'winRate':
-          const aWinRate = a.stats?.winRate || 0;
-          const bWinRate = b.stats?.winRate || 0;
-          return bWinRate - aWinRate;
-        default:
-          return 0;
-      }
+      const matchesLeague = !filters.league || team.league === filters.league;
+      const matchesCountry = !filters.country || team.country === filters.country;
+      return matchesLeague && matchesCountry;
     });
   }, [teams, filters]);
-  
-  // Reset filters
-  const resetFilters = () => setFilters(defaultOptions);
-  
-  // Update individual filters
+
   const updateFilter = (key: keyof FilterOptions, value: string) => {
-    setFilters(prev => ({
-      ...prev,
-      [key]: value
-    }));
+    setFilters(prev => ({ ...prev, [key]: value }));
   };
-  
+
+  const resetFilters = () => {
+    setFilters({ league: '', country: '' });
+  };
+
   return {
     filters,
     filteredTeams,
