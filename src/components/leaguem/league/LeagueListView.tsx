@@ -2,10 +2,7 @@
 import { memo } from "react"
 import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import DashboardHeader from "@/components/dashboard/DashboardHeader"
-import IntegrationCards from "@/components/dashboard/IntegrationCards"
-import LeagueSeasons from "@/components/LeagueSeasons"
-import type { LeagueData, Match } from "@/types"
+import type { LeagueData, Match } from "@/types/league"
 
 interface LeagueListViewProps {
   dataUpdatedAt: Date
@@ -32,23 +29,29 @@ export const LeagueListView = memo(({
   )
 
   return (
-    <>
-      <DashboardHeader
-        title="V-SPORTS ELEMZŐ RENDSZER"
-        subtitle="Professzionális Elemzés és Predikció"
-        dataUpdatedAt={dataUpdatedAt}
-        isRefreshing={isRefreshing}
-        onRefresh={onRefresh}
-        actionButton={seasonSelector}
-      />
-
-      <IntegrationCards />
+    <div className="space-y-8">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold">League Management</h1>
+          <p className="text-muted-foreground">
+            Last updated: {dataUpdatedAt.toLocaleTimeString()}
+            {isRefreshing && " (refreshing...)"}
+          </p>
+        </div>
+        {seasonSelector}
+      </div>
       
-      <LeagueSeasons
-        onEdit={onEdit}
-        onSelect={onSelectLeague}
-      />
-    </>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Integration cards would go here */}
+      </div>
+      
+      <div>
+        <Button onClick={onEdit} className="mb-4">
+          Edit Leagues
+        </Button>
+        {/* League listings would go here */}
+      </div>
+    </div>
   )
 })
 

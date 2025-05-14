@@ -1,11 +1,12 @@
+
 "use client"
 
 import { memo } from "react"
 import { Search, Plus, Eye, Edit2, CheckCircle, Trash2, Trophy, Clock } from "lucide-react"
 import type React from "react"
-import type { LeagueData } from "../types"
-import { Button } from "./ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
+import type { LeagueData } from "@/types/league"
+import { Button } from "@/components/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 interface LeagueTableProps {
   leagues: LeagueData[]

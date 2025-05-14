@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react"
 import { Eye, Edit2, CheckCircle, Trash2, Search, Plus } from "lucide-react"
-import type { LeagueData } from "@/types"
+import type { LeagueData } from "@/types/league"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -30,7 +30,7 @@ export function LeagueTableView({ leagues, onNewLeague, onLeagueAction }: League
     } else {
       const filtered = leagues.filter(
         (league) =>
-          league.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          league.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           league.season.toLowerCase().includes(searchTerm.toLowerCase())
       )
       setFilteredLeagues(filtered)
@@ -85,11 +85,11 @@ export function LeagueTableView({ leagues, onNewLeague, onLeagueAction }: League
                     <span
                       className={`
                         px-2 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5
-                        ${league.status === "In Progress" ? "bg-blue-500/20 text-blue-400" : "bg-emerald-500/20 text-emerald-400"}
+                        ${league.status === "in-progress" ? "bg-blue-500/20 text-blue-400" : "bg-emerald-500/20 text-emerald-400"}
                       `}
                     >
                       <div className="w-2 h-2 rounded-full bg-current"></div>
-                      {league.status}
+                      {league.status === "in-progress" ? "In Progress" : "Completed"}
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
@@ -112,7 +112,7 @@ export function LeagueTableView({ leagues, onNewLeague, onLeagueAction }: League
                       >
                         <Edit2 className="w-4 h-4" />
                       </Button>
-                      {league.status === "In Progress" && (
+                      {league.status === "in-progress" && (
                         <Button
                           onClick={() => onLeagueAction(league.id, "complete")}
                           variant="outline"
