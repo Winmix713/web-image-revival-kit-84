@@ -8,7 +8,7 @@ import { MatchesTableView } from "./matches/MatchesTableView"
 import { MatchesByRound } from "./matches/MatchesByRound"
 import { MatchesCardsView } from "./matches/MatchesCardsView"
 import { useMatchFiltering } from "@/hooks/useMatchFiltering"
-import type { Match } from "@/types"
+import type { Match } from "./types"
 
 interface MatchesTableProps {
   matches: Match[]

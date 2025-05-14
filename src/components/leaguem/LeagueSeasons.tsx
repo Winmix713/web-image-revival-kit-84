@@ -3,8 +3,8 @@ import { memo, useState } from "react"
 import { Trophy, ChevronRight, Edit2, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import type { LeagueData } from "@/types/league"
-import type { Match } from "@/types/match"
+import type { LeagueData } from "./types"
+import type { Match } from "./types"
 
 // Sample data for display
 const sampleLeagues = [

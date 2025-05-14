@@ -1,6 +1,7 @@
+
 import { memo } from "react";
 import { ArrowDown, ArrowUp, Minus } from "lucide-react";
-import type { TeamForm } from "../types";
+import type { TeamForm } from "./types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface FormTableProps {

@@ -1,3 +1,4 @@
+
 "use client"
 
 import type React from "react"
@@ -5,14 +6,14 @@ import type React from "react"
 import { useState, useCallback, useMemo, useRef, memo } from "react"
 import { ArrowLeft, Save, Edit, Upload } from "lucide-react"
 import Papa from "papaparse"
-import type { Match, LeagueData } from "../types"
+import type { Match, LeagueData } from "./types"
 import { MatchesTable } from "./MatchesTable"
 import { StandingsTable } from "./StandingsTable"
 import { FormTable } from "./FormTable"
-import { calculateStandings, calculateTeamForms } from "../utils/calculations"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
+import { calculateStandings, calculateTeamForms } from "./utils/calculations"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface LeagueDetailsProps {
   league: LeagueData

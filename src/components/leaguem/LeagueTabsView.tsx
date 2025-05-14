@@ -1,14 +1,13 @@
-
 "use client"
 
 import { useMemo } from "react"
-import type { Match } from "../../types"
+import type { Match } from "./types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MatchesTable } from "../MatchesTable"
-import { StandingsTable } from "../StandingsTable"
-import { FormTable } from "../FormTable"
-import { calculateStandings, calculateTeamForms } from "../../utils/calculations"
-import LeagueStatsDashboard from "../dashboard/LeagueStatsDashboard"
+import { MatchesTable } from "./MatchesTable"
+import { StandingsTable } from "./StandingsTable"
+import { FormTable } from "./FormTable"
+import { calculateStandings, calculateTeamForms } from "./utils/calculations"
+import LeagueStatsDashboard from "./LeagueStatsDashboard"
 
 interface LeagueTabsViewProps {
   matches: Match[]

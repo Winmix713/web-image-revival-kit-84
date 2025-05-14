@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { TeamPerformanceChart } from './TeamPerformanceChart';
-import { GoalAnalysisChart } from './GoalAnalysisChart';
+import TeamPerformanceChart from './TeamPerformanceChart';
+import GoalAnalysisChart from './GoalAnalysisChart';
 
 interface AnalyticsChartsProps {
   chartType?: string;

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft, Save, Upload, CircleAlert } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { CustomInput } from "@/components/ui/custom-input";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MatchesTable } from "./MatchesTable";
-import type { Match } from "../types";
+import type { Match } from "./types";
 
 interface LeagueEditorProps {
   onBack: () => void;

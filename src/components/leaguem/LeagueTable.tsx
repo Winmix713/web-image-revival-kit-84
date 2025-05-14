@@ -1,10 +1,9 @@
-
 "use client"
 
 import { memo } from "react"
 import { Search, Plus, Eye, Edit2, CheckCircle, Trash2, Trophy, Clock } from "lucide-react"
 import type React from "react"
-import type { LeagueData } from "@/types/league"
+import type { LeagueData } from "./types"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
@@ -71,11 +70,11 @@ const StatusBadge = memo(({ status }: { status: string }) => (
   <span
     className={`
       px-2 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5
-      ${status === "In Progress" ? "bg-blue-500/20 text-blue-400" : "bg-emerald-500/20 text-emerald-400"}
+      ${status === "in-progress" ? "bg-blue-500/20 text-blue-400" : "bg-emerald-500/20 text-emerald-400"}
     `}
   >
-    {status === "In Progress" ? <Clock className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
-    {status}
+    {status === "in-progress" ? <Clock className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
+    {status === "in-progress" ? "In Progress" : "Completed"}
   </span>
 ))
 
